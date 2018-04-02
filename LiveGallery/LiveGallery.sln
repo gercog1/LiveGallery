@@ -1,9 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
-VisualStudioVersion = 15.0.26730.16
+VisualStudioVersion = 15.0.27004.2005
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiveGallery", "LiveGallery\LiveGallery.csproj", "{8EFFE860-5125-47C9-A27D-752D599D4576}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiveGallery", "LiveGallery\LiveGallery.csproj", "{7B6717A7-0CFA-44BC-ADB5-D33C3DEC8EC2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{8EFFE860-5125-47C9-A27D-752D599D4576}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8EFFE860-5125-47C9-A27D-752D599D4576}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8EFFE860-5125-47C9-A27D-752D599D4576}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8EFFE860-5125-47C9-A27D-752D599D4576}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7B6717A7-0CFA-44BC-ADB5-D33C3DEC8EC2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7B6717A7-0CFA-44BC-ADB5-D33C3DEC8EC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7B6717A7-0CFA-44BC-ADB5-D33C3DEC8EC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7B6717A7-0CFA-44BC-ADB5-D33C3DEC8EC2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {62BDCDBB-761E-4F81-B93F-4740393D92B7}
+		SolutionGuid = {505A0AE1-CC16-4D21-A7CF-CADCE4D2270D}
 	EndGlobalSection
 EndGlobal
