@@ -1,6 +1,6 @@
 using AutoMapper;
-using WebApi.Dtos;
-using WebApi.Entities;
+using LiveGallery.Models;
+using LiveGallery.ViewModels;
 
 namespace WebApi.Helpers
 {
@@ -8,8 +8,8 @@ namespace WebApi.Helpers
     {
         public AutoMapperProfile()
         {
-            CreateMap<User, UserDto>();
-            CreateMap<UserDto, User>();
+            CreateMap<User, RegisterViewModel>();
+            CreateMap<RegisterViewModel, User>();
         }
     }
 }
