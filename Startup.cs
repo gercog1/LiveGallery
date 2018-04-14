@@ -55,6 +55,10 @@ namespace repos
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
             });
+            app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions {
+                        HotModuleReplacement = true,
+                        HotModuleReplacementEndpoint = "/dist/__webpack_hmr"
+                    });
         }
     }
 }
