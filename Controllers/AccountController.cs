@@ -20,11 +20,13 @@ namespace LiveGallery.Controllers
         {
             _context = context;
         }
+        
         [HttpGet]
         public IActionResult Register()
         {
             return View();
         }
+
         [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel model)
         {
@@ -82,7 +84,6 @@ namespace LiveGallery.Controllers
             await HttpContext.SignOutAsync();
             return Json("ok");
         }
-
 
         private async Task Authenticate(User user)
         {
