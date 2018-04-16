@@ -1,8 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { login } from '../actions';
+
 const LoginForm = props => {
-  const {} = props;
+    const { login } = props;
 
   return (
     <form className="m-t" 

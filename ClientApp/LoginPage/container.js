@@ -36,7 +36,6 @@ export default compose(
   withState('tabKey', 'changeKey', 1),
   withHandlers({
     changeKey: ({ changeKey }) => tabKey =>{
-        loginService.login('email', 'password');
         changeKey(tabKey);
     },
   })
