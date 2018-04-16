@@ -11,5 +11,6 @@ namespace LiveGallery.Models
         public string UserId { get; set; }
         public string PostId { get; set; }
         public string Text { get; set; }
+        public DateTime Date {get;set;}
     }
 }

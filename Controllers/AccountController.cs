@@ -23,38 +23,40 @@ namespace LiveGallery.Controllers
 
         [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel model)
-        {            
-                var user = _context.Users.FirstOrDefault(x => x.Email == model.Email);
-                if (user == null)
+        {
+            if (model.FirstName == null || model.Email == null || model.Password == null || model.UserName == null) return Json("Model field null");
+            var user = _context.Users.FirstOrDefault(x => x.Email == model.Email);
+            if (user == null)
+            {
+                User newUser = new User
                 {
-                    User newUser = new User
-                    {
-                        ID = Guid.NewGuid().ToString(),
-                        Email = model.Email,
-                        UserName = model.UserName,
-                        PasswordHash = LiveGallery.Helpers.RijndaelForPassword.EncryptStringAES(model.Password, model.Email),
-                        FirstName = model.FirstName,
-                        LastName = model.LastName,
-                        PhotoURL = model.PhotoURL
-                    };
-                    _context.Users.Add(newUser);
-                    await _context.SaveChangesAsync();
-                    await this.Authenticate(newUser);
-                    return Json("User registered");
-                }            
-                else return Json("Error. User found in DB");
+                    ID = Guid.NewGuid().ToString(),
+                    Email = model.Email,
+                    UserName = model.UserName,
+                    PasswordHash = LiveGallery.Helpers.RijndaelForPassword.EncryptStringAES(model.Password, model.Email),
+                    FirstName = model.FirstName,
+                    LastName = model.LastName,
+                    PhotoURL = model.PhotoURL
+                };
+                _context.Users.Add(newUser);
+                await _context.SaveChangesAsync();
+                await this.Authenticate(newUser);
+                return Json("User registered");
+            }
+            else return Json("Error. User found in DB");
         }
 
         [HttpPost]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
-                var user = _context.Users.FirstOrDefault(x => x.Email == model.Email);
-                if (user != null && model.Password == LiveGallery.Helpers.RijndaelForPassword.DecryptStringAES(user.PasswordHash, user.Email))
-                {
-                    await Authenticate(user);
-                    return Json(user.ID);
-                }
-                else return Json("Try again");
+            if (model.Email == null || model.Password == null) return Json("Model filed null");
+            var user = _context.Users.FirstOrDefault(x => x.Email == model.Email);
+            if (user != null && model.Password == user.PasswordHash)
+            {
+                await Authenticate(user);
+                return Json(user.ID);
+            }
+            else return Json("Try again");
         }
 
         [HttpPost]
@@ -67,9 +69,9 @@ namespace LiveGallery.Controllers
         [HttpGet]
         public IActionResult GetUser(string userID)
         {
-            if(userID != null)
+            if (userID != null)
             {
-                var user = _context.Users.FirstOrDefault(x=>x.ID == userID);
+                var user = _context.Users.FirstOrDefault(x => x.ID == userID);
                 return user == null ? Json("User not found") : Json(user);
             }
             else return Json("userID null");

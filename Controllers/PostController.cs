@@ -20,13 +20,15 @@ namespace LiveGallery.Controllers
         [HttpGet]
         public IActionResult GetUserPosts(string userID)
         {
-            return Json(_context.Posts.Where(x=>x.UserId == userID));
+            return Json(_context.Posts
+                                    .Where(x=>x.UserId == userID)
+                                    .OrderBy(x=>x.Date));
         }
 
         [HttpGet]
         public IActionResult GetAllPosts()
         {
-            return Json(_context.Posts);
+            return Json(_context.Posts.OrderBy(x=>x.Date));
         }
 
         [HttpPost]
