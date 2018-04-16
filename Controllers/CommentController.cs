@@ -25,7 +25,7 @@ namespace LiveGallery.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateComment(CreateCommentViewModel model)
+        public async Task<IActionResult> CreateComment([FromBody]CreateCommentViewModel model)
         {
             _context.Comments.Add(new Models.Comment(){
                 Id = Guid.NewGuid().ToString(),

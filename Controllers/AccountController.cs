@@ -22,7 +22,7 @@ namespace LiveGallery.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Register(RegisterViewModel model)
+        public async Task<IActionResult> Register([FromBody]RegisterViewModel model)
         {
             if (model.FirstName == null || model.Email == null || model.Password == null || model.UserName == null) return Json("Model field null");
             var user = _context.Users.FirstOrDefault(x => x.Email == model.Email);
@@ -47,7 +47,7 @@ namespace LiveGallery.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login(LoginViewModel model)
+        public async Task<IActionResult> Login([FromBody]LoginViewModel model)
         {
             if (model.Email == null || model.Password == null) return Json("Model filed null");
             var user = _context.Users.FirstOrDefault(x => x.Email == model.Email);

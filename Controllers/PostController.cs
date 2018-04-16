@@ -32,7 +32,7 @@ namespace LiveGallery.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> CreatePost(CreatePostViewModel model)
+        public async Task<ActionResult> CreatePost([FromBody]CreatePostViewModel model)
         {            
                 _context.Posts.Add(new LiveGallery.Models.Post()
                 {
