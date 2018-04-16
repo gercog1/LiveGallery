@@ -54,7 +54,7 @@ namespace LiveGallery.Controllers
             if (user != null && model.Password == user.PasswordHash)
             {
                 await Authenticate(user);
-                return Json(user.ID);
+                return Json(user);
             }
             else return Json("Try again");
         }
