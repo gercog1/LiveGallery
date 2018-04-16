@@ -21,7 +21,8 @@ namespace LiveGallery.Controllers
         [HttpGet]
         public IActionResult GetCommentsForPost(string postID)
         {
-            return Json(_context.Comments.Include(x=>x.UserId));
+            var list = _context.Comments.Where(x => x.PostId == postID).Include(x=>x.User).ToList();
+            return Json(list);
         }
 
         [HttpPost]
@@ -31,7 +32,8 @@ namespace LiveGallery.Controllers
                 Id = Guid.NewGuid().ToString(),
                 UserId = model.UserId,
                 PostId = model.PostId,
-                Text = model.Text
+                Text = model.Text,
+                Date = DateTime.Now
             });
             await _context.SaveChangesAsync();
             return Ok();

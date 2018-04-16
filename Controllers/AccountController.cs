@@ -51,7 +51,7 @@ namespace LiveGallery.Controllers
         {
             if (model.Email == null || model.Password == null) return Json("Model filed null");
             var user = _context.Users.FirstOrDefault(x => x.Email == model.Email);
-            if (user != null && model.Password == user.PasswordHash)
+            if (user != null && model.Password == LiveGallery.Helpers.RijndaelForPassword.DecryptStringAES(user.PasswordHash, user.Email))
             {
                 await Authenticate(user);
                 return Json(user);

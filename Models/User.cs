@@ -13,6 +13,5 @@ namespace LiveGallery.Models
         public string LastName { get; set; }
         public string PhotoURL { get; set; }
         public ICollection<Post> Posts { get; set; } = new List<Post>();
-        public ICollection<Comment> Comments { get; set; } = new List<Comment>();
     }
 }
