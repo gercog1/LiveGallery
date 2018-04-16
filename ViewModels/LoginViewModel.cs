@@ -1,5 +1,3 @@
-using System.ComponentModel.DataAnnotations;
-
 namespace LiveGallery.ViewModels
 {
     public class LoginViewModel
