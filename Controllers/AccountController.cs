@@ -20,18 +20,10 @@ namespace LiveGallery.Controllers
         {
             _context = context;
         }
-        
-        [HttpGet]
-        public IActionResult Register()
-        {
-            return View();
-        }
 
         [HttpPost]
         public async Task<IActionResult> Register(RegisterViewModel model)
-        {
-            if (ModelState.IsValid && model.Password == model.PasswordConfirm)
-            {
+        {            
                 var user = _context.Users.FirstOrDefault(x => x.Email == model.Email);
                 if (user == null)
                 {
@@ -48,41 +40,39 @@ namespace LiveGallery.Controllers
                     _context.Users.Add(newUser);
                     await _context.SaveChangesAsync();
                     await this.Authenticate(newUser);
-                    return Ok();
-                }
-            }
-            return Json("error");
-        }
-
-        [HttpGet]
-        public IActionResult Login()
-        {
-            return View();
+                    return Json("User registered");
+                }            
+                else return Json("Error. User found in DB");
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginViewModel model)
         {
-            if (ModelState.IsValid)
-            {
                 var user = _context.Users.FirstOrDefault(x => x.Email == model.Email);
                 if (user != null && model.Password == LiveGallery.Helpers.RijndaelForPassword.DecryptStringAES(user.PasswordHash, user.Email))
                 {
                     await Authenticate(user);
-                    return Ok();
+                    return Json(user.ID);
                 }
                 else return Json("Try again");
-            }
-            else return Json("Fail model");
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> LogOff()
         {
             await HttpContext.SignOutAsync();
             return Json("ok");
+        }
+
+        [HttpGet]
+        public IActionResult GetUser(string userID)
+        {
+            if(userID != null)
+            {
+                var user = _context.Users.FirstOrDefault(x=>x.ID == userID);
+                return user == null ? Json("User not found") : Json(user);
+            }
+            else return Json("userID null");
         }
 
         private async Task Authenticate(User user)

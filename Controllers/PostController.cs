@@ -16,11 +16,22 @@ namespace LiveGallery.Controllers
         {
             _context = context;
         }
-
-        public async Task<ActionResult> CreatePost(CreatePostViewModel model)
+        
+        [HttpGet]
+        public IActionResult GetUserPosts(string userID)
         {
-            if (ModelState.IsValid)
-            {
+            return Json(_context.Posts.Where(x=>x.UserId == userID));
+        }
+
+        [HttpGet]
+        public IActionResult GetAllPosts()
+        {
+            return Json(_context.Posts);
+        }
+
+        [HttpPost]
+        public async Task<ActionResult> CreatePost(CreatePostViewModel model)
+        {            
                 _context.Posts.Add(new LiveGallery.Models.Post()
                 {
                     Id = Guid.NewGuid().ToString(),
@@ -29,9 +40,7 @@ namespace LiveGallery.Controllers
                     ImageURL = model.ImageURL
                 });
                 await _context.SaveChangesAsync();
-                return Ok();
-            }
-            else return BadRequest();
+                return Ok();            
         }
     }
 }
