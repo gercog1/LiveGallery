@@ -1,6 +1,6 @@
 import * as WeatherForecasts from './WeatherForecasts';
 import * as Counter from './Counter';
-import { authentication } from '../LoginPage/reducers';
+import { login } from '../LoginPage/reducers';
 // The top-level state object
 // export interface ApplicationState {
 //     counter: Counter.CounterState;
@@ -13,7 +13,7 @@ import { authentication } from '../LoginPage/reducers';
 export const reducers = {
   counter: Counter.reducer,
   weatherForecasts: WeatherForecasts.reducer,
-    authentication
+  login
 };
 
 // This type can be used as a hint on action creators so that its 'dispatch' and 'getState' params are

@@ -1,9 +1,9 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { login } from '../actions';
+import { login, setEmail, setPassword } from '../actions';
 
 const LoginForm = props => {
-    const { login } = props;
+    const { login, setPassword, setEmail } = props;
 
   return (
     <form className="m-t" 
@@ -13,8 +13,7 @@ const LoginForm = props => {
         <input
           type="text"
           className="form-control"
-          // value={this.props.email}
-          // onChange={this.props.handleEmailChange}
+          onChange={setEmail}
           required
           placeholder="Username"
           name="user"
@@ -24,8 +23,7 @@ const LoginForm = props => {
         <input
           type="text"
           className="form-control"
-          // value={this.props.password}
-          // onChange={this.props.handlePasswordChange}
+          onChange={setPassword}
           required
           placeholder="Password"
           name="pass"
@@ -46,8 +44,10 @@ const mapDispatchToProps = dispatch => ({
   login: (e) =>
   {
     e.preventDefault();
-    dispatch(login('email', 'password'));
-  }
+    dispatch(login());
+  },
+  setEmail: (e)=> dispatch(setEmail(e.target.value)),
+  setPassword: (e)=> dispatch(setPassword(e.target.value)),
 });
 
 export default connect(null, mapDispatchToProps)(LoginForm)
