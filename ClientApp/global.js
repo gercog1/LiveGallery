@@ -1,1 +1,0 @@
-﻿export const baseUrl = 'http://localhost:59514/';

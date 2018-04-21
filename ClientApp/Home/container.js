@@ -11,7 +11,7 @@ const PhotoGrid = props => {
         posts.map((post, i)=>(
           <figure key={i} className="grid-figure">
             <div className="grid-photo-wrap">
-              <Link to={`/home`}>
+              <Link to={`/photo/${post.code}`}>
                 <img src={post.display_src} alt={post.caption} className="grid-photo" />
               </Link>
             </div>
@@ -22,7 +22,7 @@ const PhotoGrid = props => {
                 <button
                   // onClick={this.props.increment.bind(null, i)}
                     className="likes"><span style={{ fontSize: 30}}>&hearts;</span> {post.likes}</button>
-                <Link className="button" to={`/view/${post.code}`}>
+                <Link className="button" to={`/photo/${post.code}`}>
                   <span className="comment-count">
                     <span className="speech-bubble" />
 

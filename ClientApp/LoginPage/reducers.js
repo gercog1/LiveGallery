@@ -23,28 +23,28 @@ const authentication = (state = initialState , action) => {
 };
 
 const initialStateFormInput = {
-    email: '',
-    password: ''
-}
+  email: '',
+  password: ''
+};
 
 const formInput = ( state = initialStateFormInput, action ) => {
-    switch (action.type) {
-        case loginConstants.SET_EMAIL:
-            return {
-                ...state,
-                email: action.email
-            };
-        case loginConstants.SET_PASSWORD:
-            return {
-                ...state,
-                password: action.password,
-            };
-        default:
-            return state;
-    }
+  switch (action.type) {
+  case loginConstants.SET_EMAIL:
+    return {
+      ...state,
+      email: action.email
+    };
+  case loginConstants.SET_PASSWORD:
+    return {
+      ...state,
+      password: action.password,
+    };
+  default:
+    return state;
+  }
 };
 
 export const login = combineReducers({
-    authentication,
-    formInput
-    })
+  authentication,
+  formInput
+});

@@ -3,24 +3,24 @@ import { loginService } from './services';
 
 
 export const login = (username, password) => {
-    function request() { return { type: loginConstants.LOGIN_REQUEST }; }
-    function success() { return { type: loginConstants.LOGIN_SUCCESS }; }
-    function failure(error) { return { type: loginConstants.LOGIN_FAILURE, error }; }
+  function request() { return { type: loginConstants.LOGIN_REQUEST }; }
+  function success() { return { type: loginConstants.LOGIN_SUCCESS }; }
+  function failure(error) { return { type: loginConstants.LOGIN_FAILURE, error }; }
 
-    return (dispatch, getState) => {
-        const { login: { formInput: { email, password } } } = getState();
-        dispatch(request());
+  return (dispatch, getState) => {
+    const { login: { formInput: { email, password } } } = getState();
+    dispatch(request());
 
-        loginService.login(email, password)
-            .then(response => {
-                console.log(response);
+    loginService.login(email, password)
+      .then(response => {
+        console.log(response);
 
-            })
-            .catch(error => {
-                dispatch(failure(error));
+      })
+      .catch(error => {
+        dispatch(failure(error));
 
-            });
-    };
+      });
+  };
 };
 
 

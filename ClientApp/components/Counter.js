@@ -22,7 +22,7 @@ class Counter extends React.Component {
   render(){
     return(
       <div>
-        <h1>Counternpm123</h1>
+        <h1>Counter123</h1>
         <p>This is a simple example of a React component.</p>
         <p>Current count: <strong>{ this.props.count }</strong></p>
         <button onClick={this.onClickHandler}>Increment</button>

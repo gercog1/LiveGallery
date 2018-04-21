@@ -2,16 +2,8 @@
   "name": "aspnetcore-react-starter-kit",
   "description": "React starter kit for Asp.Net Core",
   "version": "0.1.0",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/bobbyquennell/dotnetcore-react-starter-kit"
-  },
-  "author": "bobbyquennell",
+  "author": "Bohdan Tverdoukh",
   "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/bobbyquennell/dotnetcore-react-starter-kit/issues"
-  },
-  "homepage": "https://github.com/bobbyquennell/dotnetcore-react-starter-kit#readme",
   "dependencies": {
     "aspnet-prerendering": "^3.0.1",
     "aspnet-webpack": "^2.0.1",
