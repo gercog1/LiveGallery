@@ -8,11 +8,9 @@ using Microsoft.AspNetCore.SpaServices.Webpack;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using LiveGallery.DataAccess;
-using Microsoft.AspNetCore.Identity;
-using LiveGallery.Models;
-using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Http;
 
 namespace repos
 {
@@ -35,7 +33,6 @@ namespace repos
                 {
                     options.LoginPath = new Microsoft.AspNetCore.Http.PathString("/Account/Register");
                 });
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
             services.AddMvc();
 
             return services.BuildServiceProvider();
@@ -44,21 +41,19 @@ namespace repos
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
-            app.UseDefaultFiles();
+            
+
             app.UseStaticFiles();
-            app.UseAuthentication();
-            app.UseMvc();
 
             app.UseMvc(routes =>
             {
                 routes.MapRoute(
                     name: "default",
                     template: "{controller=Home}/{action=Index}/{id?}");
-            });
-            app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions
-            {
-                HotModuleReplacement = true,
-                HotModuleReplacementEndpoint = "/dist/__webpack_hmr"
+
+                routes.MapSpaFallbackRoute(
+                    name: "spa-fallback",
+                    defaults: new { controller = "Home", action = "Index" });
             });
         }
     }

@@ -22,8 +22,8 @@ namespace LiveGallery.Controllers
         public IActionResult GetUserPosts(string userID)
         {
             return Json(_context.Posts
-                                    .Where(x => x.UserId == userID)
-                                    .OrderBy(x => x.Date));
+                                .Where(x => x.UserId == userID)
+                                .OrderBy(x => x.Date));
         }
 
         [HttpGet]
@@ -35,7 +35,7 @@ namespace LiveGallery.Controllers
         [HttpPost]
         public async Task<ActionResult> CreatePost([FromBody]CreatePostViewModel model)
         {
-            _context.Posts.Add(new LiveGallery.Models.Post()
+            _context.Posts.Add(new Post()
             {
                 Id = Guid.NewGuid().ToString(),
                 UserId = model.UserID,
@@ -48,6 +48,7 @@ namespace LiveGallery.Controllers
             return Json("added");
         }
 
+        [HttpPost]
         public async Task<ActionResult> SetLike([FromBody]SetLikeViewModel model)
         {
             var post = _context.Posts.Where(x => x.Id == model.PostId).FirstOrDefault();
