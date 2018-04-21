@@ -41,10 +41,26 @@ namespace LiveGallery.Controllers
                 Description = model.Description,
                 ImageURL = "empty URL", //TODO: Save the file and set here URL to file
                 Date = DateTime.Now,
-                Likes = 0
+                Likes = new List<string>()
             });
             await _context.SaveChangesAsync();
             return Json("added");
+        }
+
+        public async Task<ActionResult> SetLike([FromBody]SetLikeViewModel model)
+        {
+            var post = _context.Posts.Where(x => x.Id == model.PostId).FirstOrDefault();
+            if (post != null)
+            {
+                if (post.Likes.Contains(model.UserId))
+                    post.Likes.Remove(model.UserId);
+                else post.Likes.Add(model.UserId);
+
+                await _context.SaveChangesAsync();
+
+                return Json(post.Likes.Count);
+            }
+            else return Json("post not found");
         }
     }
 }
