@@ -14,9 +14,6 @@ namespace LiveGallery.ViewModels
         public string Password { get; set; }
 
         [Required]
-        public string PasswordConfirm { get; set; }
-
-        [Required]
         public string FirstName { get; set; }
 
         [Required]

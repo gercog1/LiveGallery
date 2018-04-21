@@ -24,7 +24,6 @@ namespace LiveGallery.Controllers
         [HttpPost]
         public async Task<IActionResult> Register([FromBody]RegisterViewModel model)
         {
-            if (model.FirstName == null || model.Email == null || model.Password == null || model.UserName == null) return Json("Model field null");
             var user = _context.Users.FirstOrDefault(x => x.Email == model.Email);
             if (user == null)
             {
