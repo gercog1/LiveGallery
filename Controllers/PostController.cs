@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using LiveGallery.ViewModels;
 using LiveGallery.DataAccess;
+using LiveGallery.Models;
 
 namespace LiveGallery.Controllers
 {
@@ -41,7 +42,7 @@ namespace LiveGallery.Controllers
                 Description = model.Description,
                 ImageURL = "empty URL", //TODO: Save the file and set here URL to file
                 Date = DateTime.Now,
-                Likes = new List<string>()
+                Likes = new List<Like>()
             });
             await _context.SaveChangesAsync();
             return Json("added");
@@ -52,9 +53,15 @@ namespace LiveGallery.Controllers
             var post = _context.Posts.Where(x => x.Id == model.PostId).FirstOrDefault();
             if (post != null)
             {
-                if (post.Likes.Contains(model.UserId))
-                    post.Likes.Remove(model.UserId);
-                else post.Likes.Add(model.UserId);
+                var like = post.Likes.Where(x => x.UserId == model.UserId).FirstOrDefault();
+                if (like != null)
+                    post.Likes.Remove(like);
+                else post.Likes.Add(new Like()
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    UserId = model.UserId,
+                    PostId = model.PostId
+                });    
 
                 await _context.SaveChangesAsync();
 
