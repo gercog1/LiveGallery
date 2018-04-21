@@ -18,6 +18,7 @@ const Routes = () =>{
           <Route path="/photo/:photoId" component={SinglePhoto}/>
           <Route path="/notifications" component={Notifications}/>
           <Route path="/user/:userId" component={UserPage}/>
+            <Route path="/patch" component={PhotoGrid} />
             <Route path="/profile" component={UserPage}/>
 
           <Route path="*">
