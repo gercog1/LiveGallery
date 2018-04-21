@@ -39,7 +39,7 @@ namespace LiveGallery.Controllers
                 Id = Guid.NewGuid().ToString(),
                 UserId = model.UserID,
                 Description = model.Description,
-                ImageURL = model.ImageURL,
+                ImageURL = "empty URL", //TODO: Save the file and set here URL to file
                 Date = DateTime.Now,
                 Likes = 0
             });
