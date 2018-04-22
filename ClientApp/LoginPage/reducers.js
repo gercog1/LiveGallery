@@ -2,18 +2,21 @@ import { combineReducers } from 'redux';
 import { loginConstants } from './constants';
 
 const initialState = {
-  id: ''
+  isLoggedIn: false,
+  user: {},
 };
 
 const authentication = (state = initialState , action) => {
   switch (action.type) {
   case loginConstants.LOGIN_REQUEST:
     return {
-
+      ...state,
     };
   case loginConstants.LOGIN_SUCCESS:
     return {
-
+      ...state,
+      user: action.user,
+      isLoggedIn: true,
     };
   case loginConstants.LOGIN_FAILURE:
     return {};

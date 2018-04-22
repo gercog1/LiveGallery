@@ -7,6 +7,7 @@ import PhotoGrid from './Home/container';
 import SinglePhoto from './SinglePhoto/container';
 import Notifications from './Notifications/container';
 import UserPage from './UserPage/container';
+import UserList from './UserList/container';
 
 const Routes = () =>{
   return (
@@ -18,9 +19,8 @@ const Routes = () =>{
           <Route path="/photo/:photoId" component={SinglePhoto}/>
           <Route path="/notifications" component={Notifications}/>
           <Route path="/user/:userId" component={UserPage}/>
-            <Route path="/patch" component={PhotoGrid} />
-            <Route path="/profile" component={UserPage}/>
-
+          <Route path="/profile" component={UserPage}/>
+          <Route path="/user-list" component={UserList}/>
           <Route path="*">
             <Redirect to={'/'} />
           </Route>

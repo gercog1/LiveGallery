@@ -1,10 +1,10 @@
 import { loginConstants } from './constants';
 import { loginService } from './services';
-
+import swal from 'sweetalert';
 
 export const login = (username, password) => {
   function request() { return { type: loginConstants.LOGIN_REQUEST }; }
-  function success() { return { type: loginConstants.LOGIN_SUCCESS }; }
+  function success(user) { return { type: loginConstants.LOGIN_SUCCESS, user }; }
   function failure(error) { return { type: loginConstants.LOGIN_FAILURE, error }; }
 
   return (dispatch, getState) => {
@@ -13,12 +13,16 @@ export const login = (username, password) => {
 
     loginService.login(email, password)
       .then(response => {
-        console.log(response);
-
+        localStorage.setItem('id', response.data.id);
+        localStorage.setItem('username', response.data.username);
+        localStorage.setItem('email', response.data.email);
+        localStorage.setItem('firstName', response.data.firstName);
+        localStorage.setItem('lastName', response.data.lastName);
+        dispatch(success(response.data));
       })
       .catch(error => {
         dispatch(failure(error));
-
+        swal(error.message, '', 'error');
       });
   };
 };
@@ -43,14 +47,14 @@ export const register = () => (dispatch, getState) => {
     loginService.registration({username, email, firstName, lastName, password, image })
       .then(response => {
         console.log(response);
-
+        swal('success','','success');
       })
       .catch(error => {
 
 
       });
   }
-  console.log('aaaa');
-
-
+  else {
+    swal('Password confirmation isn`t correct!', '', 'error');
+  }
 };
