@@ -42,7 +42,7 @@ namespace LiveGallery.Controllers
                 await this.Authenticate(newUser);
                 return Json("User registered");
             }
-            else return Json("Error. User found in DB");
+            else return BadRequest("Error. User found in DB");
         }
 
         [HttpPost]
@@ -55,7 +55,7 @@ namespace LiveGallery.Controllers
                 await Authenticate(user);
                 return Json(user);
             }
-            else return Json("Try again");
+            else return BadRequest("Try again");
         }
 
         [HttpPost]
@@ -71,9 +71,13 @@ namespace LiveGallery.Controllers
             if (userID != null)
             {
                 var user = _context.Users.FirstOrDefault(x => x.ID == userID);
-                return user == null ? Json("User not found") : Json(user);
+                if (user == null)
+                {
+                    return BadRequest("User npt found");
+                }
+                else return Json(user);
             }
-            else return Json("userID null");
+            else return BadRequest("userID null");
         }
 
         private async Task Authenticate(User user)

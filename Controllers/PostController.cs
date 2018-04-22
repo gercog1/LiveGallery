@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using LiveGallery.ViewModels;
 using LiveGallery.DataAccess;
 using LiveGallery.Models;
+using System.IO;
 
 namespace LiveGallery.Controllers
 {
@@ -33,14 +34,30 @@ namespace LiveGallery.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult> CreatePost([FromBody]CreatePostViewModel model)
+        public async Task<ActionResult> CreatePost([FromForm]CreatePostViewModel model)
         {
+            if(model.File == null)
+            {
+                return BadRequest("file null");
+            }
+
+            if(!Directory.Exists(Path.Combine(Directory.GetCurrentDirectory(), "Images")))
+            {
+                Directory.CreateDirectory(Path.Combine(Directory.GetCurrentDirectory(), "Images"));
+            }
+
+            string path = Path.Combine(Directory.GetCurrentDirectory(), "Images", model.File.FileName);
+
+            using (var stream = new FileStream(path, FileMode.Create))
+            {
+                await model.File.CopyToAsync(stream);
+            }
             _context.Posts.Add(new Post()
             {
                 Id = Guid.NewGuid().ToString(),
                 UserId = model.UserID,
                 Description = model.Description,
-                ImageURL = "empty URL", //TODO: Save the file and set here URL to file
+                ImageURL = path, 
                 Date = DateTime.Now,
                 Likes = new List<Like>()
             });
@@ -68,7 +85,7 @@ namespace LiveGallery.Controllers
 
                 return Json(post.Likes.Count);
             }
-            else return Json("post not found");
+            else return BadRequest("post not found");
         }
     }
 }
