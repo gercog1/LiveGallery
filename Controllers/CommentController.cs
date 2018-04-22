@@ -19,7 +19,7 @@ namespace LiveGallery.Controllers
         }
         
         [HttpGet]
-        public IActionResult GetCommentsForPost(string postID)
+        public IActionResult GetCommentsForPost(Guid postID)
         {
             var list = _context.Comments.Where(x => x.PostId == postID).Include(x=>x.User).ToList();
             return Json(list);
@@ -29,7 +29,7 @@ namespace LiveGallery.Controllers
         public async Task<IActionResult> CreateComment([FromBody]CreateCommentViewModel model)
         {
             _context.Comments.Add(new Models.Comment(){
-                Id = Guid.NewGuid().ToString(),
+                Id = Guid.NewGuid(),
                 UserId = model.UserId,
                 PostId = model.PostId,
                 Text = model.Text,

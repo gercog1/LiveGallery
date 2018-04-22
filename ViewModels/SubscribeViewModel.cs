@@ -2,9 +2,9 @@
 
 namespace LiveGallery.ViewModels
 {
-    public class SetLikeViewModel
+    public class SubscribeViewModel
     {
         public Guid UserId { get; set; }
-        public Guid PostId { get; set; }
+        public Guid SubscriberId { get; set; }
     }
 }

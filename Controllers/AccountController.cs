@@ -29,7 +29,7 @@ namespace LiveGallery.Controllers
             {
                 User newUser = new User
                 {
-                    ID = Guid.NewGuid().ToString(),
+                    ID = Guid.NewGuid(),
                     Email = model.Email,
                     UserName = model.UserName,
                     PasswordHash = LiveGallery.Helpers.RijndaelForPassword.EncryptStringAES(model.Password, model.Email),
@@ -66,7 +66,13 @@ namespace LiveGallery.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetUser(string userID)
+        public IActionResult GetAllUsers()
+        {
+            return Json(_context.Users.OrderBy(x => x.UserName).ToList());
+        }
+
+        [HttpGet]
+        public IActionResult GetUser(Guid userID)
         {
             if (userID != null)
             {
@@ -79,6 +85,23 @@ namespace LiveGallery.Controllers
             }
             else return BadRequest("userID null");
         }
+
+        //[HttpPost]
+        //public async Task<IActionResult> Subscribe([FromBody]SubscribeViewModel model)
+        //{
+        //    var user = _context.Users.Where(x => x.ID == model.UserId).FirstOrDefault();
+        //    if (user != null)
+        //    {
+        //        if (user.SubscribersId.Contains(model.SubscriberId))
+        //            user.SubscribersId.Remove(model.SubscriberId);
+        //        else user.SubscribersId.Add(model.SubscriberId);
+
+        //        await _context.SaveChangesAsync();
+
+        //        return Ok();
+        //    }
+        //    return BadRequest("user not found");
+        //}
 
         private async Task Authenticate(User user)
         {

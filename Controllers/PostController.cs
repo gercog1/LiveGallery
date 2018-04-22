@@ -20,7 +20,7 @@ namespace LiveGallery.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetUserPosts(string userID)
+        public IActionResult GetUserPosts(Guid userID)
         {
             return Json(_context.Posts
                                 .Where(x => x.UserId == userID)
@@ -32,6 +32,17 @@ namespace LiveGallery.Controllers
         {
             return Json(_context.Posts.OrderBy(x => x.Date));
         }
+
+        //[HttpGet]
+        //public IActionResult GetAllPostByUser(Guid userId)
+        //{
+        //    var user = _context.Users.Where(x => x.ID == userId).FirstOrDefault();var post = _context.Posts;
+        //    if (user != null)
+        //    {
+        //        return Json(_context.Posts.Where(x => user.SubscribersId.Contains(x.UserId)));
+        //    }
+        //    else return BadRequest("user not found");
+        //}
 
         [HttpPost]
         public async Task<ActionResult> CreatePost([FromForm]CreatePostViewModel model)
@@ -54,7 +65,7 @@ namespace LiveGallery.Controllers
             }
             _context.Posts.Add(new Post()
             {
-                Id = Guid.NewGuid().ToString(),
+                Id = Guid.NewGuid(),
                 UserId = model.UserID,
                 Description = model.Description,
                 ImageURL = path, 
@@ -76,7 +87,7 @@ namespace LiveGallery.Controllers
                     post.Likes.Remove(like);
                 else post.Likes.Add(new Like()
                 {
-                    Id = Guid.NewGuid().ToString(),
+                    Id = Guid.NewGuid(),
                     UserId = model.UserId,
                     PostId = model.PostId
                 });    
