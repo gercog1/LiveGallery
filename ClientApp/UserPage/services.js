@@ -7,7 +7,7 @@ export const userService = {
     data.append('UserID', localStorage.getItem('id'));
     data.append('Description', description);
     data.append('File', file);
-    return axios.post('/', data, {
+    return axios.post('/Post/CreatePost', data, {
       headers: {
         dataType: 'json',
         processData: false,
@@ -15,5 +15,9 @@ export const userService = {
       },
     });
   },
+  getProfilePosts(){
+    return axios.get(`/Post/GetUserPosts?userID=${localStorage.getItem('id')}`);
+  }
 };
+
 

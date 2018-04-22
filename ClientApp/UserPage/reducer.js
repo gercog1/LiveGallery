@@ -1,5 +1,6 @@
 import {userConstants} from './constants';
 
+
 const initialState = {
   description: '',
   file: ''
@@ -17,6 +18,31 @@ export const addPhoto = (state = initialState, action ) => {
       ...state,
       file: action.file,
     };
+  default:
+    return state;
+  }
+};
+
+
+const initialStateProfile = {
+  isLoggedProfilePosts: false,
+  posts: [],
+};
+
+export const profilePosts = (state = initialStateProfile , action) => {
+  switch (action.type) {
+  case userConstants.GET_USER_PROFILE_POSTS_REQUEST:
+    return {
+      ...state,
+    };
+  case userConstants.GET_USER_PROFILE_POSTS_SUCCESS:
+    return {
+      ...state,
+      posts: action.posts,
+      isLoggedProfilePosts: true,
+    };
+  case userConstants.GET_USER_PROFILE_POSTS_FAILURE:
+    return {};
   default:
     return state;
   }

@@ -1,9 +1,10 @@
 
 import { login } from '../LoginPage/reducers';
-import { addPhoto } from '../UserPage/reducer';
+import { addPhoto, profilePosts } from '../UserPage/reducer';
 
 export const reducers = {
   login,
   addPhoto,
+    profilePosts
 };
 

@@ -1,9 +1,10 @@
 import React from 'react';
-import { compose, withState, withHandlers } from 'recompose';
+import { compose, withState, withHandlers, lifecycle, branch, renderComponent } from 'recompose';
 import { connect } from 'react-redux';
-import posts from '../Home/posts';
 import { Link } from 'react-router-dom';
 import { Image, ListGroup, ListGroupItem } from 'react-bootstrap';
+import actions from './actions';
+import Single from '../SinglePhoto/container';
 
 import AddPhoto from './AddPhoto';
 
@@ -11,7 +12,7 @@ const UserPage = props => {
   const {
     showModal,
     openModal,
-    closeModal, user} = props;
+    closeModal, posts} = props;
 
   return(
     <div>
@@ -65,17 +66,17 @@ const UserPage = props => {
           posts.map((post, i)=>(
             <figure key={i} className="grid-figure">
               <div className="grid-photo-wrap">
-                <Link to={`/photo/${post.code}`}>
-                  <img src={post.display_src} alt={post.caption} className="grid-photo" />
+                <Link to={`/photo/${post.id}`}>
+                  <img src={post.imageURL} alt='image' className="grid-photo" />
                 </Link>
               </div>
               <figcaption>
-                <p>{post.caption}</p>
+                <p>{post.description}</p>
                 <div className="control-buttons">
                   <button
                   // onClick={this.props.increment.bind(null, i)}
-                    className="likes"><span style={{ fontSize: 30}}>&hearts;</span> {post.likes}</button>
-                  <Link className="button" to={`/photo/${post.code}`}>
+                    className="likes"><span style={{ fontSize: 30}}>&hearts;</span> {post.likes.length}</button>
+                  <Link className="button" to={`/photo/${post.id}`}>
                     <span className="comment-count">
                       <span className="speech-bubble" />
                     </span>
@@ -92,14 +93,29 @@ const UserPage = props => {
 };
 
 const mapStateToProps = state => ({
-  user: state.login.authentication.user,
+  posts: state.profilePosts.posts,
+  isLoggedProfilePosts: state.profilePosts.isLoggedProfilePosts,
+});
+
+const mapDispatchToProps = dispatch => ({
+  getProfilePosts: () => dispatch(actions.getPosts()),
 });
 
 export default compose(
-  connect(mapStateToProps),
+  connect(mapStateToProps, mapDispatchToProps),
   withState('showModal', 'turnModal', false),
   withHandlers({
     openModal: ({turnModal}) => () => turnModal(true),
     closeModal: ({turnModal}) => () => turnModal(false),
   }),
+  lifecycle({
+    componentWillMount(){
+      this.props.getProfilePosts();
+    }
+  }),
+  branch(
+    ({ isLoggedProfilePosts }) => isLoggedProfilePosts,
+    renderComponent(UserPage),
+    renderComponent(Single)
+  )
 )(UserPage);

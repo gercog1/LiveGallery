@@ -14,7 +14,7 @@ export const login = (username, password) => {
     loginService.login(email, password)
       .then(response => {
         localStorage.setItem('id', response.data.id);
-        localStorage.setItem('username', response.data.username);
+        localStorage.setItem('username', response.data.userName);
         localStorage.setItem('email', response.data.email);
         localStorage.setItem('firstName', response.data.firstName);
         localStorage.setItem('lastName', response.data.lastName);
