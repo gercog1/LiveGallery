@@ -20,7 +20,7 @@ namespace LiveGallery.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetUserPosts(Guid userID)
+        public IActionResult GetUserPosts(string userID)
         {
             return Json(_context.Posts
                                 .Where(x => x.UserId == userID)
@@ -65,7 +65,7 @@ namespace LiveGallery.Controllers
             }
             _context.Posts.Add(new Post()
             {
-                Id = Guid.NewGuid(),
+                Id = Guid.NewGuid().ToString(),
                 UserId = model.UserID,
                 Description = model.Description,
                 ImageURL = path, 
@@ -87,7 +87,7 @@ namespace LiveGallery.Controllers
                     post.Likes.Remove(like);
                 else post.Likes.Add(new Like()
                 {
-                    Id = Guid.NewGuid(),
+                    Id = Guid.NewGuid().ToString(),
                     UserId = model.UserId,
                     PostId = model.PostId
                 });    

@@ -4,7 +4,7 @@ namespace LiveGallery.Models
 {
     public class Subscribe
     {
-        public Guid Id { get; set; }
-        public Guid SubscriberId { get; set; }
+        public string Id { get; set; }
+        public string SubscriberId { get; set; }
     }
 }

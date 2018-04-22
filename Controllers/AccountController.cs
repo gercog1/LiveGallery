@@ -29,7 +29,7 @@ namespace LiveGallery.Controllers
             {
                 User newUser = new User
                 {
-                    ID = Guid.NewGuid(),
+                    ID = Guid.NewGuid().ToString(),
                     Email = model.Email,
                     UserName = model.UserName,
                     PasswordHash = LiveGallery.Helpers.RijndaelForPassword.EncryptStringAES(model.Password, model.Email),
@@ -72,7 +72,7 @@ namespace LiveGallery.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetUser(Guid userID)
+        public IActionResult GetUser(string userID)
         {
             if (userID != null)
             {
