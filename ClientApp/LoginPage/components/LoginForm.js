@@ -15,7 +15,7 @@ const LoginForm = props => {
                     className="form-control"
                     onChange={setEmail}
                     required
-                    placeholder="Username"
+                    placeholder="Usernameaaaaa"
                     name="user"
                 />
             </div>

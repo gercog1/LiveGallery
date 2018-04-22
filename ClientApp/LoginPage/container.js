@@ -20,7 +20,7 @@ const LoginPage = props => {
             </div>
           </span>
                 <div className="ibox-content ibox-contet-login" style={{ borderStyle: 'none' , width: 443}}>
-                    <h2 className="font-bold" >Welcome to LiveGallery</h2>
+                    <h2 className="font-bold" >Welcome to LiveaaaaGallery</h2>
                     <p className="text-navy" style={{ marginBottom: 20 }}>
                         Sign in into your Account
                     </p>
