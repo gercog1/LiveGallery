@@ -2,7 +2,7 @@ import swal from 'sweetalert';
 
 import { userConstants } from './constants';
 import {userService} from "./services";
-
+import { globalService } from "../services";
 
 const setDescription = description => ({ type: userConstants.SET_ADD_PHOTO_DESCRIPTION, description });
 const setFile = file => ({ type: userConstants.SET_ADD_PHOTO_FILE, file });
@@ -31,11 +31,25 @@ const getPosts = () => {
     userService.getProfilePosts()
       .then(response => {
         dispatch(success(response.data));
+
       })
       .catch(error => {
         dispatch(failure(error));
+
       });
   };
+};
+
+const setLike = (postId) => (dispatch) => {
+  globalService.setLike(postId, localStorage.getItem('id'))
+    .then(response => {
+      dispatch(getPosts());
+      swal('success', '', 'success');
+
+    })
+    .catch(error => {
+      swal(error.message, '', 'error');
+    });
 };
 
 const actions = {
@@ -43,6 +57,7 @@ const actions = {
   setFile,
   addPhoto,
   getPosts,
+  setLike,
 };
 
 export default actions;

@@ -12,7 +12,7 @@ const UserPage = props => {
   const {
     showModal,
     openModal,
-    closeModal, posts} = props;
+    closeModal, posts, setLike} = props;
 
   return(
     <div>
@@ -67,14 +67,14 @@ const UserPage = props => {
             <figure key={i} className="grid-figure">
               <div className="grid-photo-wrap">
                 <Link to={`/photo/${post.id}`}>
-                  <img src={post.imageURL} alt='image' className="grid-photo" />
+                  <img src={post.imageURL} alt="image" className="grid-photo" />
                 </Link>
               </div>
               <figcaption>
                 <p>{post.description}</p>
                 <div className="control-buttons">
                   <button
-                  // onClick={this.props.increment.bind(null, i)}
+                    onClick={() => setLike(post.id)}
                     className="likes"><span style={{ fontSize: 30}}>&hearts;</span> {post.likes.length}</button>
                   <Link className="button" to={`/photo/${post.id}`}>
                     <span className="comment-count">
@@ -99,6 +99,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   getProfilePosts: () => dispatch(actions.getPosts()),
+  setLike: postId => dispatch(actions.setLike(postId)),
 });
 
 export default compose(
