@@ -7,6 +7,7 @@ using LiveGallery.ViewModels;
 using LiveGallery.DataAccess;
 using LiveGallery.Models;
 using System.IO;
+using Microsoft.EntityFrameworkCore;
 
 namespace LiveGallery.Controllers
 {
@@ -23,6 +24,7 @@ namespace LiveGallery.Controllers
         public IActionResult GetUserPosts(string userID)
         {
             return Json(_context.Posts
+                                .Include(x => x.Likes)
                                 .Where(x => x.UserId == userID)
                                 .OrderBy(x => x.Date));
         }
@@ -30,7 +32,7 @@ namespace LiveGallery.Controllers
         [HttpGet]
         public IActionResult GetAllPosts()
         {
-            return Json(_context.Posts.OrderBy(x => x.Date));
+            return Json(_context.Posts.Include(x => x.Likes).OrderBy(x => x.Date));
         }
 
         //[HttpGet]
@@ -79,7 +81,7 @@ namespace LiveGallery.Controllers
         [HttpPost]
         public async Task<ActionResult> SetLike([FromBody]SetLikeViewModel model)
         {
-            var post = _context.Posts.Where(x => x.Id == model.PostId).FirstOrDefault();
+            var post = _context.Posts.Include(x => x.Likes).Where(x => x.Id == model.PostId).FirstOrDefault();
             if (post != null)
             {
                 var like = post.Likes.Where(x => x.UserId == model.UserId).FirstOrDefault();
