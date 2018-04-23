@@ -2,6 +2,6 @@ import axios from 'axios';
 
 export const listServices = {
   getUsers(){
-      return axios.get('');
-  }  ,
+    return axios.get('/Account/GetAllUsers');
+  },
 };
