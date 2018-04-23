@@ -35,7 +35,22 @@ namespace LiveGallery.Controllers
                 Text = model.Text,
                 Date = DateTime.Now
             });
+
             await _context.SaveChangesAsync();
+
+            return Ok();
+        }
+
+        public async Task<IActionResult> DeleteComment(string commentId)
+        {
+            var comment = _context.Comments.Where(x => x.Id == commentId).FirstOrDefault();
+
+            if (comment == null) return BadRequest("comment not found");
+
+            _context.Comments.Remove(comment);
+
+            await _context.SaveChangesAsync();
+
             return Ok();
         }
     }

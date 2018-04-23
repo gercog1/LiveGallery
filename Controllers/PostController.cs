@@ -7,6 +7,7 @@ using LiveGallery.ViewModels;
 using LiveGallery.DataAccess;
 using LiveGallery.Models;
 using System.IO;
+using Microsoft.EntityFrameworkCore;
 
 namespace LiveGallery.Controllers
 {
@@ -23,6 +24,7 @@ namespace LiveGallery.Controllers
         public IActionResult GetUserPosts(string userID)
         {
             return Json(_context.Posts
+                                .Include(x => x.Likes)
                                 .Where(x => x.UserId == userID)
                                 .OrderBy(x => x.Date));
         }
@@ -30,7 +32,7 @@ namespace LiveGallery.Controllers
         [HttpGet]
         public IActionResult GetAllPosts()
         {
-            return Json(_context.Posts.OrderBy(x => x.Date));
+            return Json(_context.Posts.Include(x => x.Likes).OrderBy(x => x.Date));
         }
 
         //[HttpGet]
@@ -51,35 +53,66 @@ namespace LiveGallery.Controllers
             {
                 return BadRequest("file null");
             }
-
-            if(!Directory.Exists(Path.Combine(Directory.GetCurrentDirectory(), "Images")))
+            
+            if(!Directory.Exists(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images")))
             {
-                Directory.CreateDirectory(Path.Combine(Directory.GetCurrentDirectory(), "Images"));
+                Directory.CreateDirectory(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images"));
             }
 
-            string path = Path.Combine(Directory.GetCurrentDirectory(), "Images", model.File.FileName);
+            string ext = string.Empty;
+
+            try
+            {
+                ext = model.File.FileName.Split(new char[] { '.' }, StringSplitOptions.RemoveEmptyEntries)[1];
+            }
+            catch(Exception)
+            {
+                return BadRequest("bad file");
+            }
+
+            string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", model.File.FileName);
+            string newFileName = model.UserID + Guid.NewGuid().ToString() + "." + ext;
+            string newPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", newFileName);
 
             using (var stream = new FileStream(path, FileMode.Create))
             {
                 await model.File.CopyToAsync(stream);
             }
+
+            System.IO.File.Move(path, newPath);
+            
             _context.Posts.Add(new Post()
             {
                 Id = Guid.NewGuid().ToString(),
                 UserId = model.UserID,
                 Description = model.Description,
-                ImageURL = path, 
+                ImageURL = Url.Content("~/images/" + newFileName), 
                 Date = DateTime.Now,
                 Likes = new List<Like>()
             });
+
             await _context.SaveChangesAsync();
+
             return Json("added");
+        }
+
+        public async Task<ActionResult> DeletePost(string postId)
+        {
+            var post = _context.Posts.Include(x => x.Likes).Where(x => x.Id == postId).FirstOrDefault();
+
+            if (post == null) return BadRequest("post not found");
+
+            _context.Posts.Remove(post);
+
+            await _context.SaveChangesAsync();
+
+            return Ok();              
         }
 
         [HttpPost]
         public async Task<ActionResult> SetLike([FromBody]SetLikeViewModel model)
         {
-            var post = _context.Posts.Where(x => x.Id == model.PostId).FirstOrDefault();
+            var post = _context.Posts.Include(x => x.Likes).Where(x => x.Id == model.PostId).FirstOrDefault();
             if (post != null)
             {
                 var like = post.Likes.Where(x => x.UserId == model.UserId).FirstOrDefault();
