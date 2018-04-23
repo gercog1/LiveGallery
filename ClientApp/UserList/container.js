@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { compose, lifecycle, branch, renderComponent } from 'recompose';
 import { connect } from 'react-redux';
 import {ListGroup, ListGroupItem, Image} from 'react-bootstrap';
@@ -12,7 +13,7 @@ const UserList = props => {
       <figure style={{ flexBasis: 'none', height: 600 }} className="grid-figure">
         <ListGroup>
           {
-            users.map(user=>(
+            users.filter(user => user.id != localStorage.getItem('id')).map(user=>(
               <ListGroupItem>
                 <div className="row">
                   <div className="col-md-1">
@@ -22,7 +23,7 @@ const UserList = props => {
                     />
                   </div>
                   <div className="col-md-2">
-                    <h3 style={{ display: 'inline-block'}}> {user.userName}</h3>
+                      <h3 style={{ display: 'inline-block'}}><Link to={`/user/${user.id}`}> {user.userName}</Link></h3>
                     <h3 style={{ display: 'inline-block', fontWeight: 400}}>{user.firstName} {user.lastName}</h3>
                   </div>
                   <div className="col-md-offset-11">
