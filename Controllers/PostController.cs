@@ -25,6 +25,7 @@ namespace LiveGallery.Controllers
         {
             return Json(_context.Posts
                                 .Include(x => x.Likes)
+                                .Include(x => x.Comments)
                                 .Where(x => x.UserId == userID)
                                 .OrderBy(x => x.Date));
         }
@@ -41,19 +42,34 @@ namespace LiveGallery.Controllers
         [HttpGet]
         public IActionResult GetAllPosts()
         {
-            return Json(_context.Posts.Include(x => x.Likes).OrderBy(x => x.Date));
+            return Json(_context.Posts
+                .Include(x => x.Likes)
+                .Include(x => x.Comments)
+                .OrderBy(x => x.Date));
         }
 
-        //[HttpGet]
-        //public IActionResult GetAllPostByUser(Guid userId)
-        //{
-        //    var user = _context.Users.Where(x => x.ID == userId).FirstOrDefault();var post = _context.Posts;
-        //    if (user != null)
-        //    {
-        //        return Json(_context.Posts.Where(x => user.SubscribersId.Contains(x.UserId)));
-        //    }
-        //    else return BadRequest("user not found");
-        //}
+        [HttpGet]
+        public IActionResult GetPostsBySubscribers(string userId)
+        {
+            var subs = _context.Subscribers.Where(x => x.UserId == userId).ToList();
+
+            List<Post> posts = new List<Post>();
+
+            if (subs.Count > 0)
+            {
+                foreach (var item in subs)
+                {
+                    var post = _context.Posts
+                        .Include(x => x.Likes)
+                        .Include(x => x.Comments)
+                        .Where(x => x.UserId == item.SubscriberId);
+
+                    if (post != null) posts.AddRange(post);
+                }
+            }
+
+            return Json(posts);
+        }
 
         [HttpPost]
         public async Task<ActionResult> CreatePost([FromForm]CreatePostViewModel model)
@@ -97,27 +113,15 @@ namespace LiveGallery.Controllers
                 Description = model.Description,
                 ImageURL = Url.Content("~/images/" + newFileName), 
                 Date = DateTime.Now,
-                Likes = new List<Like>()
+                Likes = new List<Like>(),
+                Comments = new List<Comment>()
             });
 
             await _context.SaveChangesAsync();
 
             return Json("added");
         }
-
-        public async Task<ActionResult> DeletePost(string postId)
-        {
-            var post = _context.Posts.Include(x => x.Likes).Where(x => x.Id == postId).FirstOrDefault();
-
-            if (post == null) return BadRequest("post not found");
-
-            _context.Posts.Remove(post);
-
-            await _context.SaveChangesAsync();
-
-            return Ok();              
-        }
-
+        
         [HttpPost]
         public async Task<ActionResult> SetLike([FromBody]SetLikeViewModel model)
         {

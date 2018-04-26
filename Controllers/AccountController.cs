@@ -38,9 +38,11 @@ namespace LiveGallery.Controllers
                     LastName = model.LastName,
                     PhotoURL = model.PhotoURL
                 };
+
                 _context.Users.Add(newUser);
+
                 await _context.SaveChangesAsync();
-                await this.Authenticate(newUser);
+
                 return Json("User registered");
             }
             else return BadRequest("Error. User found in DB");
@@ -54,6 +56,7 @@ namespace LiveGallery.Controllers
             if (user != null && model.Password == LiveGallery.Helpers.RijndaelForPassword.DecryptStringAES(user.PasswordHash, user.Email))
             {
                 await Authenticate(user);
+
                 return Json(user);
             }
             else return BadRequest("Try again");
@@ -63,6 +66,7 @@ namespace LiveGallery.Controllers
         public async Task<IActionResult> LogOff()
         {
             await HttpContext.SignOutAsync();
+
             return Json("ok");
         }
 
@@ -82,27 +86,46 @@ namespace LiveGallery.Controllers
                 {
                     return BadRequest("User npt found");
                 }
-                else return Json(user);
+                else
+                {
+                    GetUserResponseModel model = new GetUserResponseModel();
+                    model.User = user;
+                    model.Subscribers = _context.Subscribers
+                                                            .Where(x => x.UserId == userID)
+                                                            .Select(x => x.SubscriberId)
+                                                            .ToList();
+
+                    return Json(model);
+                }
             }
             else return BadRequest("userID null");
         }
 
-        //[HttpPost]
-        //public async Task<IActionResult> Subscribe([FromBody]SubscribeViewModel model)
-        //{
-        //    var user = _context.Users.Where(x => x.ID == model.UserId).FirstOrDefault();
-        //    if (user != null)
-        //    {
-        //        if (user.SubscribersId.Contains(model.SubscriberId))
-        //            user.SubscribersId.Remove(model.SubscriberId);
-        //        else user.SubscribersId.Add(model.SubscriberId);
+        [HttpPost]
+        public async Task<IActionResult> Subscribe([FromBody]SubscribeViewModel model)
+        {
+            var subs = _context.Subscribers
+                                            .Where(x => x.UserId == model.UserId && x.SubscriberId == model.SubscriberId)
+                                            .FirstOrDefault();
 
-        //        await _context.SaveChangesAsync();
+            if(subs != null)
+            {
+                _context.Subscribers.Remove(subs);
+            }
+            else
+            {
+                _context.Subscribers.Add(new Models.Subscribe()
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    SubscriberId = model.SubscriberId,
+                    UserId = model.UserId
+                });
+            }
 
-        //        return Ok();
-        //    }
-        //    return BadRequest("user not found");
-        //}
+            await _context.SaveChangesAsync();
+
+            return Ok();
+        }
 
         private async Task Authenticate(User user)
         {
