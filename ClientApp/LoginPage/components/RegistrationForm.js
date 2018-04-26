@@ -13,7 +13,14 @@ const RegistrationForm = props => {
     setPassword,
     setImage,
     setConfirmPassword,
-      register,
+    register,
+      username,
+      email,
+      firstName,
+      lastName,
+      password,
+      confirmPassword,
+      image,
   } = props;
 
   return (
@@ -27,7 +34,7 @@ const RegistrationForm = props => {
           onChange={setUsername}
           required
           placeholder="Username"
-
+            value={username}
         />
       </div>
       <div className={'form-group'}>
@@ -37,7 +44,7 @@ const RegistrationForm = props => {
           onChange={setEmail}
           required
           placeholder="Email"
-
+            value={email}
         />
       </div>
       <div className={'form-group'}>
@@ -47,7 +54,7 @@ const RegistrationForm = props => {
           onChange={setFirstName}
           required
           placeholder="First name"
-
+            value={firstName}
         />
       </div>
       <div className={'form-group'}>
@@ -57,7 +64,7 @@ const RegistrationForm = props => {
           onChange={setLastName}
           required
           placeholder="Last name"
-
+            value={lastName}
         />
       </div>
       <div className={'form-group'}>
@@ -67,6 +74,7 @@ const RegistrationForm = props => {
           onChange={setPassword}
           required
           placeholder="Password"
+          value={password}
         />
       </div>
       <div className={'form-group'}>
@@ -76,6 +84,7 @@ const RegistrationForm = props => {
           onChange={setConfirmPassword}
           required
           placeholder="Confirm password"
+          value={confirmPassword}
         />
 
       </div>
@@ -86,6 +95,7 @@ const RegistrationForm = props => {
           onChange={setImage}
           required
           placeholder="Image"
+          value={image}
         />
 
       </div>
@@ -112,4 +122,15 @@ const mapDispatchToProps = dispatch => ({
   }
 });
 
-export default connect(null, mapDispatchToProps)(RegistrationForm);
+
+const mapStateToProps = state => ({
+  username:state.login.registrationInput.username,
+  email: state.login.registrationInput.email,
+  firstName: state.login.registrationInput.firstName,
+  lastName: state.login.registrationInput.lastName,
+  password: state.login.registrationInput.password,
+  confirmPassword: state.login.registrationInput.confirmPassword,
+  image: state.login.registrationInput.image,
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(RegistrationForm);

@@ -30,6 +30,15 @@ namespace LiveGallery.Controllers
         }
 
         [HttpGet]
+        public IActionResult GetPost(string postId)
+        {
+            var post = _context.Posts.Include(x => x.Likes).Where(x => x.Id == postId).FirstOrDefault();
+
+            if(post != null) return Json(post);
+            else return BadRequest("post not found");
+        }
+
+        [HttpGet]
         public IActionResult GetAllPosts()
         {
             return Json(_context.Posts.Include(x => x.Likes).OrderBy(x => x.Date));

@@ -3,6 +3,7 @@ import { loginConstants } from './constants';
 
 const initialState = {
   isLoggedIn: false,
+  isLoggedOut: true,
   user: {},
 };
 
@@ -17,6 +18,14 @@ const authentication = (state = initialState , action) => {
       ...state,
       user: action.user,
       isLoggedIn: true,
+      isLoggedOut: false,
+    };
+  case loginConstants.LOG_OUT:
+    return {
+      ...state,
+      user: {},
+      isLoggedIn: false,
+      isLoggedOut: true,
     };
   case loginConstants.LOGIN_FAILURE:
     return {};
@@ -95,6 +104,8 @@ const registrationInput = ( state = initialStateRegistration, action) => {
       ...state,
       image: action.image,
     };
+  case loginConstants.RESET_REGISTRATION_FORM:
+    return initialStateRegistration;
   default:
     return state;
   }

@@ -1,8 +1,9 @@
 import { login } from '../LoginPage/reducers';
 import { addPhoto, profilePosts } from '../UserPage/reducer';
-import { postComments} from '../SinglePhoto/reducer';
+import { postComments, onePhoto} from '../SinglePhoto/reducer';
 import { userList} from '../UserList/reducer';
 import { randomPosts, randomUser} from '../RandomUser/reducer';
+import { allPosts} from "../Home/reducer";
 
 export const reducers = {
   login,
@@ -11,6 +12,8 @@ export const reducers = {
   postComments,
   userList,
   randomPosts,
-    randomUser
+  randomUser,
+  allPosts,
+  onePhoto
 };
 

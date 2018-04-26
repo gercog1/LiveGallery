@@ -5,18 +5,22 @@ import { Link } from 'react-router-dom';
 import { Image, ListGroup, ListGroupItem } from 'react-bootstrap';
 import actions from './actions';
 import Single from '../SinglePhoto/container';
-
+import { logout} from "../LoginPage/actions";
+import { Redirect } from 'react-router-dom';
 import AddPhoto from './AddPhoto';
 
 const UserPage = props => {
   const {
     showModal,
     openModal,
-    closeModal, posts, setLike} = props;
+    closeModal, posts, setLike, logOut, isLoggedOut} = props;
 
   return(
     <div>
       { showModal && <AddPhoto showModal={showModal} closeModal={closeModal}/> }
+        {
+            isLoggedOut && <Redirect to='/'/>
+        }
       <div className="photo-grid">
         <figure style={{ flexBasis: 'none', height: 200, display: 'inline-block' }} className="grid-figure">
           <div className="row">
@@ -31,6 +35,8 @@ const UserPage = props => {
                 <h2 style={{ color: '#4286f4'}} className="font-bold" >{localStorage.getItem('username')}</h2>
                 <h3 className="font-bold" ><i style={{ color: '#669091'}} className="glyphicon glyphicon-send" /> {localStorage.getItem('firstName')} {localStorage.getItem('lastName')}</h3>
                 <h3 style={{ fontWeight: 400 }}><i style={{ color: '#669091'}} className="glyphicon glyphicon-phone-alt" /> {localStorage.getItem('email')}</h3>
+                <h3 onClick={logOut} style={{ fontWeight: 400, cursor: 'pointer' }}><i style={{ color: '#669091'}} />Logout</h3>
+
               </figcaption>
             </div>
             <div className="col-md-2">
@@ -95,11 +101,13 @@ const UserPage = props => {
 const mapStateToProps = state => ({
   posts: state.profilePosts.posts,
   isLoggedProfilePosts: state.profilePosts.isLoggedProfilePosts,
+  isLoggedOut: state.login.authentication.isLoggedOut,
 });
 
 const mapDispatchToProps = dispatch => ({
   getProfilePosts: () => dispatch(actions.getPosts()),
   setLike: postId => dispatch(actions.setLike(postId)),
+    logOut: () => dispatch(logout()),
 });
 
 export default compose(

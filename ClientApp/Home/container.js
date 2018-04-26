@@ -1,31 +1,36 @@
 import React from 'react';
-import posts from './posts';
+import { compose, lifecycle, branch, renderComponent } from 'recompose';
+import { connect } from 'react-redux';
+
 import { Link } from 'react-router-dom';
 
+import { getAllPosts, setLike} from "./actions";
+
+import { Loading} from "../Loading";
+
+
 const PhotoGrid = props => {
-  const {} = props;
+  const { posts, setLike } = props;
 
   return(
     <div className="photo-grid">
       {
-        posts.map((post, i)=>(
+        posts.filter(i => i.userId != localStorage.getItem('id')).map((post, i)=>(
           <figure key={i} className="grid-figure">
             <div className="grid-photo-wrap">
-              <Link to={`/photo/${post.code}`}>
-                <img src={post.display_src} alt={post.caption} className="grid-photo" />
+              <Link to={`/photo/${post.id}`}>
+                <img src={post.imageURL} alt="image" className="grid-photo" />
               </Link>
             </div>
-
             <figcaption>
-              <p>{post.caption}</p>
+              <p>{post.description}</p>
               <div className="control-buttons">
                 <button
-                  // onClick={this.props.increment.bind(null, i)}
-                    className="likes"><span style={{ fontSize: 30}}>&hearts;</span> {post.likes}</button>
-                <Link className="button" to={`/photo/${post.code}`}>
+                  onClick={() => setLike(post.id, post.userId)}
+                  className="likes"><span style={{ fontSize: 30}}>&hearts;</span> {post.likes.length}</button>
+                <Link className="button" to={`/photo/${post.id}`}>
                   <span className="comment-count">
                     <span className="speech-bubble" />
-
                   </span>
                 </Link>
               </div>
@@ -38,4 +43,28 @@ const PhotoGrid = props => {
   );
 };
 
-export default PhotoGrid;
+const mapStateToProps = state => ({
+  posts: state.allPosts.posts,
+  isLoadedAllPosts: state.allPosts.isLoadedAllPosts,
+});
+
+
+const mapDispatchToProps = dispatch => ({
+  getAllPosts: () => dispatch(getAllPosts()),
+    setLike: (postId, userId) => dispatch(setLike(postId, userId)),
+});
+
+export default compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  lifecycle({
+    componentWillMount(){
+      this.props.getAllPosts();
+    }
+  }),
+  branch(
+    ({isLoadedAllPosts}) => isLoadedAllPosts,
+    renderComponent(PhotoGrid),
+    renderComponent(Loading)
+  )
+
+)(PhotoGrid);

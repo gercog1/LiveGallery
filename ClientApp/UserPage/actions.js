@@ -44,13 +44,13 @@ const setLike = (postId) => (dispatch) => {
   globalService.setLike(postId, localStorage.getItem('id'))
     .then(response => {
       dispatch(getPosts());
-      swal('success', '', 'success');
 
     })
     .catch(error => {
       swal(error.message, '', 'error');
     });
 };
+
 
 const actions = {
   setDescription,

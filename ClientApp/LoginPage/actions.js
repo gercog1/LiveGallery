@@ -22,7 +22,7 @@ export const login = (username, password) => {
       })
       .catch(error => {
         dispatch(failure(error));
-        swal(error.message, '', 'error');
+        swal(error.data.message, '', 'error');
       });
   };
 };
@@ -46,11 +46,11 @@ export const register = () => (dispatch, getState) => {
   if(password === confirmPassword){
     loginService.registration({username, email, firstName, lastName, password, image })
       .then(response => {
-        console.log(response);
+        dispatch(resetForm());
         swal('success','','success');
       })
       .catch(error => {
-
+        swal(error.message,'','success');
 
       });
   }
@@ -58,3 +58,13 @@ export const register = () => (dispatch, getState) => {
     swal('Password confirmation isn`t correct!', '', 'error');
   }
 };
+
+export const logout = () => {
+  localStorage.removeItem('id');
+  localStorage.removeItem('username');
+  localStorage.removeItem('firsName');
+  localStorage.removeItem('lastName');
+  return { type: loginConstants.LOG_OUT };
+};
+
+export const resetForm = () => ({ type: loginConstants.RESET_REGISTRATION_FORM });

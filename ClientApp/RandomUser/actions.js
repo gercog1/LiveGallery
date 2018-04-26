@@ -30,7 +30,6 @@ const setLike = (postId, userId) => (dispatch) => {
   globalService.setLike(postId, userId)
     .then(response => {
       dispatch(getRandomPosts(userId));
-      swal('success', '', 'success');
 
     })
     .catch(error => {

@@ -14,13 +14,12 @@ export const Layout = React.createClass({
           <div className="control-buttons">
             <Link to="/home" style={{ marginRight: 5 }} className="button"><span/> Home </Link>
             <Link to="/user-list" style={{ marginRight: 5 }} className="button"> User List </Link>
-            <Link to="/notifications" style={{ marginRight: 5 }} className="button"> Notifications </Link>
+            {/*<Link to="/notifications" style={{ marginRight: 5 }} className="button"> Notifications </Link>*/}
             <Link to="/profile" style={{ marginRight: 5 }} className="button"> Profile </Link>
           </div>
         </figure>
       </div>
       {React.cloneElement({...this.props}.children, {...this.props})}
-      {console.log(this.props)}
     </div>
     );}
 });
