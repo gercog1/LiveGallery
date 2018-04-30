@@ -14,31 +14,41 @@ const PhotoGrid = props => {
 
   return(
     <div className="photo-grid">
-      {
-        posts.filter(i => i.userId != localStorage.getItem('id')).map((post, i)=>(
-          <figure key={i} className="grid-figure">
-            <div className="grid-photo-wrap">
-              <Link to={`/photo/${post.id}`}>
-                <img src={post.imageURL} alt="image" className="grid-photo" />
-              </Link>
-            </div>
-            <figcaption>
-              <p>{post.description}</p>
-              <div className="control-buttons">
-                <button
-                  onClick={() => setLike(post.id, post.userId)}
-                  className="likes"><span style={{ fontSize: 30}}>&hearts;</span> {post.likes.length}</button>
-                <Link className="button" to={`/photo/${post.id}`}>
-                  <span className="comment-count">
-                    <span className="speech-bubble" />
-                  </span>
-                </Link>
-              </div>
-            </figcaption>
+      <div className="row">
+        {
+          posts.filter(i => i.userId != localStorage.getItem('id')).map((post, i)=>(
+            <div className="col-md-4">
+              <figure key={i} className="grid-figure" >
+                <div className="grid-photo-wrap" style={{ height: 500, overflow: 'hidden'}}>
+                  <Link to={`/photo/${post.id}`} >
+                    <img src={post.imageURL} alt="image" className="grid-photo" />
+                  </Link>
+                </div>
+                <figcaption>
+                  <p>{post.description}</p>
+                  <div className="control-buttons">
+                    <button
+                      onClick={() => setLike(post.id, localStorage.getItem('id'))}
+                      className="likes">
+                      {
+                        post.likes.some( like => like.userId === localStorage.getItem('id')) ?
+                          <span style={{ fontSize: 30, color: '#d65933'}}>&hearts;</span>
+                          :
+                          <span style={{ fontSize: 30}}>&hearts;</span>
+                      }{post.likes.length}</button>
+                    <Link className="button" to={`/photo/${post.id}`}>
+                      <span className="comment-count">
+                        <span className="speech-bubble" />
+                      </span>
+                    </Link>
+                  </div>
+                </figcaption>
 
-          </figure>
-        ))
-      }
+              </figure>
+            </div>
+          ))
+        }
+      </div>
     </div>
   );
 };
@@ -51,7 +61,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = dispatch => ({
   getAllPosts: () => dispatch(getAllPosts()),
-    setLike: (postId, userId) => dispatch(setLike(postId, userId)),
+  setLike: (postId, userId) => dispatch(setLike(postId, userId)),
 });
 
 export default compose(

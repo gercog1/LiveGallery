@@ -18,25 +18,38 @@ const SinglePhoto = props => {
           <img src={post.imageURL} alt={post.imageURL} className="grid-photo" />
         </div>
 
-        <figcaption>
-          <p>{post.description}</p>
+        <figcaption style={{ wordWrap: 'break-word'}}>
+          {/*<div className="row">*/}
+            {/*<div className="col-lg-12">*/}
+              <p>{post.description}</p>
+            {/*</div>*/}
+          {/*</div>*/}
           <div className="control-buttons">
             <button
               onClick={() => setLike(post.id, post.userId)}
-              className="likes"><span style={{ fontSize: 30}}>&hearts;</span> {post.likes.length}</button>
-            <span className="comment-count">
-              <span className="speech-bubble" />
+              className="likes">
+              {
+                post.likes.some( like => like.userId === localStorage.getItem('id')) ?
+                  <span style={{ fontSize: 30, color: '#d65933'}}>&hearts;</span>
+                  :
+                  <span style={{ fontSize: 30}}>&hearts;</span>
+              }
 
-            </span>
+              {post.likes.length}</button>
+            <Link className="button" to={`/photo/${post.id}`}>
+              <span className="comment-count">
+                <span className="speech-bubble" />
+              </span>
+            </Link>
           </div>
         </figcaption>
       </figure>
-      <div className="comments">
+      <div className="comments" >
         {isLoadedPostComments && comments.length > 0 && comments.map(comment => (
-          <div className="comment">
+          <div key={comment.id} className="comment">
             <p>
               <strong>{comment.user.userName}</strong>
-                {comment.text}
+              {comment.text}
               <button className="remove-comment"
                 // onClick={this.props.removeComment.bind(null, this.props.params.postId, i)}
               >&times;</button>
@@ -46,7 +59,7 @@ const SinglePhoto = props => {
         <form className="comment-form"
           onSubmit={(e) => addComment(e, post.id, post.userId)}
         >
-          <input value={comment} v onChange={setCommentText} type="text" placeholder="comment"/>
+          <input value={comment} onChange={setCommentText} type="text" placeholder="comment"/>
           <input type="submit" hidden />
         </form>
       </div>
@@ -59,7 +72,7 @@ const mapStateToProps = state => ({
   post: state.onePhoto.post,
   comments: state.postComments.comments,
   isLoadedPostComments: state.postComments.isLoadedPostComments,
-    comment: state.postComments.comment,
+  comment: state.postComments.comment,
 });
 
 const mapDispatchToProps = dispatch => ({

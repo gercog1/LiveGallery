@@ -62,7 +62,9 @@ export const register = () => (dispatch, getState) => {
 export const logout = () => {
   localStorage.removeItem('id');
   localStorage.removeItem('username');
-  localStorage.removeItem('firsName');
+  localStorage.removeItem('firstName');
+  localStorage.removeItem('lastName');
+  localStorage.removeItem('email');
   localStorage.removeItem('lastName');
   return { type: loginConstants.LOG_OUT };
 };

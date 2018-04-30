@@ -4,7 +4,7 @@ import { compose, lifecycle, branch, renderComponent } from 'recompose';
 import { connect } from 'react-redux';
 import {ListGroup, ListGroupItem, Image} from 'react-bootstrap';
 import actions from './actions';
-import SinglePhoto from '../SinglePhoto/container';
+import { Loading } from '../Loading';
 
 const UserList = props => {
   const { users } = props;
@@ -14,7 +14,7 @@ const UserList = props => {
         <ListGroup>
           {
             users.filter(user => user.id != localStorage.getItem('id')).map(user=>(
-              <ListGroupItem>
+              <ListGroupItem key={user.id}>
                 <div className="row">
                   <div className="col-md-1">
                     <Image
@@ -58,6 +58,6 @@ export default compose(
   branch(
     ({isLoadedList}) => isLoadedList,
     renderComponent(UserList),
-    renderComponent(SinglePhoto)
+    renderComponent(Loading)
   )
 )(UserList);

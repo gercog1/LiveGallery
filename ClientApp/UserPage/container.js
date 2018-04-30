@@ -6,21 +6,18 @@ import { Image, ListGroup, ListGroupItem } from 'react-bootstrap';
 import actions from './actions';
 import Single from '../SinglePhoto/container';
 import { logout} from "../LoginPage/actions";
-import { Redirect } from 'react-router-dom';
 import AddPhoto from './AddPhoto';
+import { formatDescription } from "../functions";
 
 const UserPage = props => {
   const {
     showModal,
     openModal,
-    closeModal, posts, setLike, logOut, isLoggedOut} = props;
+    closeModal, posts, setLike, logOut, isLoggedOut, isLoggedIn} = props;
 
   return(
     <div>
       { showModal && <AddPhoto showModal={showModal} closeModal={closeModal}/> }
-        {
-            isLoggedOut && <Redirect to='/'/>
-        }
       <div className="photo-grid">
         <figure style={{ flexBasis: 'none', height: 200, display: 'inline-block' }} className="grid-figure">
           <div className="row">
@@ -35,7 +32,7 @@ const UserPage = props => {
                 <h2 style={{ color: '#4286f4'}} className="font-bold" >{localStorage.getItem('username')}</h2>
                 <h3 className="font-bold" ><i style={{ color: '#669091'}} className="glyphicon glyphicon-send" /> {localStorage.getItem('firstName')} {localStorage.getItem('lastName')}</h3>
                 <h3 style={{ fontWeight: 400 }}><i style={{ color: '#669091'}} className="glyphicon glyphicon-phone-alt" /> {localStorage.getItem('email')}</h3>
-                <h3 onClick={logOut} style={{ fontWeight: 400, cursor: 'pointer' }}><i style={{ color: '#669091'}} />Logout</h3>
+                <h3 onClick={logOut} style={{ fontWeight: 400, cursor: 'pointer' }}><Link to="/" onClick={logOut}>Logout</Link></h3>
 
               </figcaption>
             </div>
@@ -67,32 +64,41 @@ const UserPage = props => {
         </figure>
       </div>
       <div className="photo-grid">
+        <div className="row">
+          {
+            posts.map((post, i)=>(
+              <div className="col-md-4">
+                <figure key={i} className="grid-figure" >
+                  <div className="grid-photo-wrap" style={{ height: 500, overflow: 'hidden'}}>
+                    <Link to={`/photo/${post.id}`} >
+                      <img src={post.imageURL} alt="image" className="grid-photo" />
+                    </Link>
+                  </div>
+                  <figcaption>
+                    <p>{formatDescription(post.description)}</p>
+                    <div className="control-buttons">
+                      <button
+                        onClick={() => setLike(post.id, localStorage.getItem('id'))}
+                        className="likes">
+                        {
+                          post.likes.some( like => like.userId === localStorage.getItem('id')) ?
+                            <span style={{ fontSize: 30, color: '#d65933'}}>&hearts;</span>
+                            :
+                            <span style={{ fontSize: 30}}>&hearts;</span>
+                        }{post.likes.length}</button>
+                      <Link className="button" to={`/photo/${post.id}`}>
+                        <span className="comment-count">
+                          <span className="speech-bubble" />
+                        </span>
+                      </Link>
+                    </div>
+                  </figcaption>
 
-        {
-          posts.map((post, i)=>(
-            <figure key={i} className="grid-figure">
-              <div className="grid-photo-wrap">
-                <Link to={`/photo/${post.id}`}>
-                  <img src={post.imageURL} alt="image" className="grid-photo" />
-                </Link>
+                </figure>
               </div>
-              <figcaption>
-                <p>{post.description}</p>
-                <div className="control-buttons">
-                  <button
-                    onClick={() => setLike(post.id)}
-                    className="likes"><span style={{ fontSize: 30}}>&hearts;</span> {post.likes.length}</button>
-                  <Link className="button" to={`/photo/${post.id}`}>
-                    <span className="comment-count">
-                      <span className="speech-bubble" />
-                    </span>
-                  </Link>
-                </div>
-              </figcaption>
-
-            </figure>
-          ))
-        }
+            ))
+          }
+        </div>
       </div>
     </div>
   );
@@ -102,12 +108,13 @@ const mapStateToProps = state => ({
   posts: state.profilePosts.posts,
   isLoggedProfilePosts: state.profilePosts.isLoggedProfilePosts,
   isLoggedOut: state.login.authentication.isLoggedOut,
+  isLoggedIn: state.login.authentication.isLoggedIn,
 });
 
 const mapDispatchToProps = dispatch => ({
   getProfilePosts: () => dispatch(actions.getPosts()),
   setLike: postId => dispatch(actions.setLike(postId)),
-    logOut: () => dispatch(logout()),
+  logOut: () => dispatch(logout()),
 });
 
 export default compose(

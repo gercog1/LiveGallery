@@ -1,10 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-import { compose, withState, withHandlers } from 'recompose';
+import { compose, withState, withHandlers, lifecycle } from 'recompose';
 import RegisterForm from './components/RegistrationForm'
 import LoginForm from './components/LoginForm';
-
+import { logout } from "./actions";
 import { Tabs, Tab } from 'react-bootstrap';
 
 const LoginPage = props => {
@@ -39,10 +39,19 @@ const mapStateToProps = state => ({
     isLoggedIn: state.login.authentication.isLoggedIn,
 })
 
+const mapDispatchToProps = dispatch => ({
+    logout: () => dispatch(logout()),
+})
+
 export default compose(
-    connect(mapStateToProps),
+    connect(mapStateToProps, mapDispatchToProps),
     withState('tabKey', 'changeKey', 1),
     withHandlers({
         changeKey: ({ changeKey }) => tabKey => changeKey(tabKey),
+    }),
+    lifecycle({
+        componentWillMount(){
+            this.props.logout();
+        }
     })
 )(LoginPage)

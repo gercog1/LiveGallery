@@ -11,9 +11,14 @@ import UserList from './UserList/container';
 import RandomUser from './RandomUser/container';
 
 const Routes = () =>{
+
   return (
     <Switch>
+
       <Route exact path="/" component={LoginPage}/>
+      {
+        localStorage.getItem('id') &&
+
       <Layout>
         <Switch>
           <Route path="/home" component={PhotoGrid}/>
@@ -27,6 +32,10 @@ const Routes = () =>{
           </Route>
         </Switch>
       </Layout>
+      }
+      <Route path="*">
+        <Redirect to={'/'} />
+      </Route>
     </Switch>
   );
 };

@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Image, ListGroup, ListGroupItem } from 'react-bootstrap';
 import actions from './actions';
-import Single from '../SinglePhoto/container';
+import { Loading } from '../Loading';
 
 
 
@@ -53,32 +53,41 @@ const RandomUser = props => {
         </figure>
       </div>
       <div className="photo-grid">
+        <div className="row">
+          {
+            posts.map((post, i)=>(
+              <div className="col-md-4">
+                <figure key={i} className="grid-figure" >
+                  <div className="grid-photo-wrap" style={{ height: 500, overflow: 'hidden'}}>
+                    <Link to={`/photo/${post.id}`} >
+                      <img src={post.imageURL} alt="image" className="grid-photo" />
+                    </Link>
+                  </div>
+                  <figcaption>
+                    <p>{post.description}</p>
+                    <div className="control-buttons">
+                      <button
+                        onClick={() => setLike(post.id, localStorage.getItem('id'))}
+                        className="likes">
+                        {
+                          post.likes.some( like => like.userId === localStorage.getItem('id')) ?
+                            <span style={{ fontSize: 30, color: '#d65933'}}>&hearts;</span>
+                            :
+                            <span style={{ fontSize: 30}}>&hearts;</span>
+                        }{post.likes.length}</button>
+                      <Link className="button" to={`/photo/${post.id}`}>
+                        <span className="comment-count">
+                          <span className="speech-bubble" />
+                        </span>
+                      </Link>
+                    </div>
+                  </figcaption>
 
-        {
-          posts.map((post, i)=>(
-            <figure key={i} className="grid-figure">
-              <div className="grid-photo-wrap">
-                <Link to={`/photo/${post.id}`}>
-                  <img src={post.imageURL} alt="image" className="grid-photo" />
-                </Link>
+                </figure>
               </div>
-              <figcaption>
-                <p>{post.description}</p>
-                <div className="control-buttons">
-                  <button
-                    onClick={() => setLike(post.id, match.params.userId)}
-                    className="likes"><span style={{ fontSize: 30}}>&hearts;</span> {post.likes.length}</button>
-                  <Link className="button" to={`/photo/${post.id}`}>
-                    <span className="comment-count">
-                      <span className="speech-bubble" />
-                    </span>
-                  </Link>
-                </div>
-              </figcaption>
-
-            </figure>
-          ))
-        }
+            ))
+          }
+        </div>
       </div>
     </div>
   );
@@ -110,6 +119,6 @@ export default compose(
   branch(
     ({ isLoggedRandomPosts }) => isLoggedRandomPosts,
     renderComponent(RandomUser),
-    renderComponent(Single)
+    renderComponent(Loading)
   )
 )(RandomUser);
