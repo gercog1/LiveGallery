@@ -36,11 +36,11 @@ const SinglePhoto = props => {
               }
 
               {post.likes.length}</button>
-            <Link className="button" to={`/photo/${post.id}`}>
+            <button className="button" >
               <span className="comment-count">
                 <span className="speech-bubble" />
               </span>
-            </Link>
+            </button>
           </div>
         </figcaption>
       </figure>

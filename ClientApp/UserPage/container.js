@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { Image, ListGroup, ListGroupItem } from 'react-bootstrap';
 import actions from './actions';
-import Single from '../SinglePhoto/container';
+import { Loading } from '../Loading';
 import { logout} from "../LoginPage/actions";
 import AddPhoto from './AddPhoto';
 import { formatDescription } from "../functions";
@@ -132,6 +132,6 @@ export default compose(
   branch(
     ({ isLoggedProfilePosts }) => isLoggedProfilePosts,
     renderComponent(UserPage),
-    renderComponent(Single)
+    renderComponent(Loading)
   )
 )(UserPage);
