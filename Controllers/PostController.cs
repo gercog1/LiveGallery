@@ -60,9 +60,9 @@ namespace LiveGallery.Controllers
                 foreach (var item in subs)
                 {
                     var post = _context.Posts
-                        .Include(x => x.Likes)
-                        .Include(x => x.Comments)
-                        .Where(x => x.UserId == item.SubscriberId);
+                                       .Include(x => x.Likes)
+                                       .Include(x => x.Comments)
+                                       .Where(x => x.UserId == item.SubscriberId);
 
                     if (post != null) posts.AddRange(post);
                 }

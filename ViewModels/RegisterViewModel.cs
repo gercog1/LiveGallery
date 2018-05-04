@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Http;
 using System.ComponentModel.DataAnnotations;
 
 namespace LiveGallery.ViewModels
@@ -20,6 +21,6 @@ namespace LiveGallery.ViewModels
         public string LastName { get; set; }
 
         [Required]
-        public string PhotoURL { get; set; }
+        public IFormFile Photo { get; set; }
     }
 }
