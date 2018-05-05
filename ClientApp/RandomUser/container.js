@@ -5,16 +5,16 @@ import { Link } from 'react-router-dom';
 import { Image, ListGroup, ListGroupItem } from 'react-bootstrap';
 import actions from './actions';
 import { Loading } from '../Loading';
-
-
+import AddPhoto from './AddPhoto';
+import { logout} from "../LoginPage/actions";
 
 const RandomUser = props => {
   const {
-    posts, match, user } = props;
+    posts, match, user, showModal, closeModal, openModal, logout } = props;
 
   return(
     <div>
-
+      { showModal && <AddPhoto showModal={showModal} closeModal={closeModal}/> }
       <div className="photo-grid">
         <figure style={{ flexBasis: 'none', height: 200, display: 'inline-block' }} className="grid-figure">
           <div className="row">
@@ -29,6 +29,7 @@ const RandomUser = props => {
                 <h2 style={{ color: '#4286f4'}} className="font-bold" >{user.userName}</h2>
                 <h3 className="font-bold" ><i style={{ color: '#669091'}} className="glyphicon glyphicon-send" /> {user.firstName} {user.lastName}</h3>
                 <h3 style={{ fontWeight: 400 }}><i style={{ color: '#669091'}} className="glyphicon glyphicon-phone-alt" /> {user.email}</h3>
+                  { user.id == localStorage.getItem('id') && <h3 style={{ fontWeight: 400, cursor: 'pointer' }}><Link to="/" onClick={logout}>Logout</Link></h3> }
               </figcaption>
             </div>
             <div className="col-md-2">
@@ -49,14 +50,28 @@ const RandomUser = props => {
                 <h3 style={{textAlign: 'center' }} className="font-bold" >FOLOWING</h3>
               </figcaption>
             </div>
+            {
+              user.id == localStorage.getItem('id') &&
+
+                  <div className="col-md-1">
+                    <figcaption>
+                      <button onClick={openModal}
+                        style={{color: '#4286f4', textAlign: 'center', width: 50, height: 50, marginTop: 10}}
+                        className="font-bold"><i style={{fontSize: 20}} className="glyphicon glyphicon-plus"/>
+                      </button>
+                      <h4 style={{fontSize: 10}}>ADD PHOTO</h4>
+                    </figcaption>
+                  </div>
+            }
           </div>
         </figure>
       </div>
       <div className="photo-grid">
+
         <div className="row">
           {
             posts.map((post, i)=>(
-              <div className="col-md-4">
+              <div key={post.id} className="col-md-4">
                 <figure key={i} className="grid-figure" >
                   <div className="grid-photo-wrap" style={{ height: 500, overflow: 'hidden'}}>
                     <Link to={`/photo/${post.id}`} >
@@ -96,7 +111,8 @@ const RandomUser = props => {
 const mapStateToProps = state => ({
   posts: state.randomPosts.posts,
   isLoggedRandomPosts: state.randomPosts.isLoggedRandomPosts,
-  user: state.randomUser.user,
+  user: state.randomUser.user.user,
+  followers: state.randomUser.followersCount,
   isLoggedRandomUser: state.randomUser.isLoggedRandomUser,
 
 });
@@ -105,19 +121,35 @@ const mapDispatchToProps = dispatch => ({
   getProfilePosts: (id) => dispatch(actions.getRandomPosts(id)),
   getRandomUser: id => dispatch(actions.getRandomUser(id)),
   setLike: (postId, id) => dispatch(actions.setLike(postId, id)),
+  clearInf: () => dispatch(actions.clearUserInf()),
+  logout: () => dispatch(logout()),
 });
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
+  withState('showModal', 'turnModal', false),
+  withHandlers({
+    openModal: ({turnModal}) => () => turnModal(true),
+    closeModal: ({turnModal}) => () => turnModal(false),
+  }),
   lifecycle({
     componentWillMount(){
       const { getProfilePosts, match, getRandomUser} = this.props;
-      getProfilePosts(match.params.userId);
-      getRandomUser(match.params.userId);
+      if(match.path.split('/')[1] == 'profile'){
+        getProfilePosts(localStorage.getItem('id'));
+        getRandomUser(localStorage.getItem('id'));
+      }
+      else {
+        getProfilePosts(match.params.userId);
+        getRandomUser(match.params.userId);
+      }
+    },
+    componentWillUnmount(){
+      this.props.clearInf();
     }
   }),
   branch(
-    ({ isLoggedRandomPosts }) => isLoggedRandomPosts,
+    ({ isLoggedRandomPosts, isLoggedRandomUser }) => isLoggedRandomPosts && isLoggedRandomUser,
     renderComponent(RandomUser),
     renderComponent(Loading)
   )

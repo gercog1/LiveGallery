@@ -7,7 +7,7 @@ import actions from './actions';
 import { Loading } from '../Loading';
 
 const UserList = props => {
-  const { users } = props;
+  const { users, subscribe } = props;
   return(
     <div className="photo-grid">
       <figure style={{ flexBasis: 'none', height: 600 }} className="grid-figure">
@@ -27,7 +27,7 @@ const UserList = props => {
                     <h3 style={{ display: 'inline-block', fontWeight: 400}}>{user.firstName} {user.lastName}</h3>
                   </div>
                   <div className="col-md-offset-11">
-                    <button style={{ marginRight: 20}} className="btn btn-primary block m-b">Follow</button>
+                    <button style={{ marginRight: 20}} onClick={() => subscribe(user.id)} className="btn btn-primary block m-b">Follow</button>
                   </div>
                 </div>
               </ListGroupItem>))
@@ -40,6 +40,7 @@ const UserList = props => {
 
 const mapDispatchToProps = dispatch => ({
   getUsers: () => dispatch(actions.getUsers()),
+    subscribe: userId => dispatch(actions.subscribe(userId)),
 });
 
 const mapStateToProps = state => ({

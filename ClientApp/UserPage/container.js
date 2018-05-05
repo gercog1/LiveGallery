@@ -13,7 +13,7 @@ const UserPage = props => {
   const {
     showModal,
     openModal,
-    closeModal, posts, setLike, logOut, isLoggedOut, isLoggedIn} = props;
+    closeModal, posts, setLike, logOut} = props;
 
   return(
     <div>
@@ -67,7 +67,7 @@ const UserPage = props => {
         <div className="row">
           {
             posts.map((post, i)=>(
-              <div className="col-md-4">
+              <div key={post.id} className="col-md-4">
                 <figure key={i} className="grid-figure" >
                   <div className="grid-photo-wrap" style={{ height: 500, overflow: 'hidden'}}>
                     <Link to={`/photo/${post.id}`} >
@@ -107,8 +107,6 @@ const UserPage = props => {
 const mapStateToProps = state => ({
   posts: state.profilePosts.posts,
   isLoggedProfilePosts: state.profilePosts.isLoggedProfilePosts,
-  isLoggedOut: state.login.authentication.isLoggedOut,
-  isLoggedIn: state.login.authentication.isLoggedIn,
 });
 
 const mapDispatchToProps = dispatch => ({

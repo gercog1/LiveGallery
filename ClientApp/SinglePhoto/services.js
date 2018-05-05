@@ -11,6 +11,11 @@ export const singleServices = {
       Text: text,
     });
   },
+  deleteComment(commentId){
+    return axios.post(`/Comment/DeleteComment?=${commentId}`, {
+
+    });
+  },
   getOnePost(postId){
     return axios.get(`/Post/GetPost?=${postId}`);
   },

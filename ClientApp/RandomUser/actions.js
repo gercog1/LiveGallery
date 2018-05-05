@@ -3,6 +3,8 @@ import swal from 'sweetalert';
 import { randomConstants } from './constants';
 import { randomService } from "./services";
 import { globalService } from "../services";
+import {userService} from "../UserPage/services";
+import {userConstants} from "../UserPage/constants";
 
 
 
@@ -58,10 +60,35 @@ const getRandomUser = (id) => {
   };
 };
 
+const clearUserInf = () => ({ type: randomConstants.CLEAR_USER_INF });
+
+
+const setDescription = description => ({ type: randomConstants.SET_ADD_PHOTO_DESCRIPTION, description });
+const setFile = file => ({ type: randomConstants.SET_ADD_PHOTO_FILE, file });
+
+const addPhoto = (closeModal) => (dispatch, getState) => {
+  const { addPhoto: { description, file }} = getState();
+  randomService.addPhoto(description, file)
+    .then(response => {
+      dispatch(getRandomPosts(localStorage.getItem('id')));
+      swal('success', '', 'success');
+      closeModal();
+    })
+    .catch(error => {
+
+      swal(error.message, '', 'error');
+    });
+};
+
 const actions = {
   getRandomPosts,
   setLike,
-    getRandomUser
+  getRandomUser,
+  clearUserInf,
+    setDescription,
+    setFile,
+    addPhoto,
+
 };
 
 export default actions;

@@ -17,7 +17,7 @@ const PhotoGrid = props => {
       <div className="row">
         {
           posts.filter(i => i.userId != localStorage.getItem('id')).map((post, i)=>(
-            <div className="col-md-4">
+            <div key={post.id} className="col-md-4">
               <figure key={i} className="grid-figure" >
                 <div className="grid-photo-wrap" style={{ height: 500, overflow: 'hidden'}}>
                   <Link to={`/photo/${post.id}`} >

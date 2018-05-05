@@ -24,8 +24,8 @@ const Routes = () =>{
           <Route path="/home" component={PhotoGrid}/>
           <Route path="/photo/:photoId" component={SinglePhoto}/>
           <Route path="/notifications" component={Notifications}/>
-          <Route path="/user/:userId" component={RandomUser}/>
-          <Route path="/profile" component={UserPage}/>
+          <Route path="/user/:userId" component={props => <RandomUser {...props} />}/>
+          <Route path="/profile" component={props => <RandomUser {...props} /> }/>
           <Route path="/user-list" component={UserList}/>
           <Route path="*">
             <Redirect to={'/'} />

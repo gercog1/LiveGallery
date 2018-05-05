@@ -8,7 +8,7 @@ import { Loading } from '../Loading';
 
 const SinglePhoto = props => {
   const {match, post, setLike, comments,
-    isLoadedPostComments, addComment, setCommentText, comment
+    isLoadedPostComments, addComment, setCommentText, comment, deleteComment
   } = props;
 
   return(
@@ -20,9 +20,9 @@ const SinglePhoto = props => {
 
         <figcaption style={{ wordWrap: 'break-word'}}>
           {/*<div className="row">*/}
-            {/*<div className="col-lg-12">*/}
-              <p>{post.description}</p>
-            {/*</div>*/}
+          {/*<div className="col-lg-12">*/}
+          <p>{post.description}</p>
+          {/*</div>*/}
           {/*</div>*/}
           <div className="control-buttons">
             <button
@@ -50,14 +50,19 @@ const SinglePhoto = props => {
             <p>
               <strong>{comment.user.userName}</strong>
               {comment.text}
-              <button className="remove-comment"
-                // onClick={this.props.removeComment.bind(null, this.props.params.postId, i)}
-              >&times;</button>
+              {
+                comment.user.id == localStorage.getItem('id') &&
+                    <button className="remove-comment"
+                      onClick={() => deleteComment(comment.id, post.id)}
+                    >&times;</button>
+
+              }
+
             </p>
           </div>))
         }
         <form className="comment-form"
-          onSubmit={(e) => addComment(e, post.id, post.userId)}
+          onSubmit={(e) => addComment(e, post.id)}
         >
           <input value={comment} onChange={setCommentText} type="text" placeholder="comment"/>
           <input type="submit" hidden />
@@ -79,10 +84,11 @@ const mapDispatchToProps = dispatch => ({
   getOnePost: postId => dispatch(actions.getOnePost(postId)),
   setLike: (postId, userId) => dispatch(actions.setLike(postId, userId)),
   getComments: postId => dispatch(actions.getComments(postId)),
-  addComment:  (e, postId, userId) => {
+  addComment:  (e, postId) => {
     e.preventDefault();
-    dispatch(actions.addComment(postId, userId));
+    dispatch(actions.addComment(postId));
   },
+  deleteComment: (commentId, postId) => dispatch(actions.deleteComment(commentId, postId)),
   setCommentText: e => dispatch(actions.setCommentText(e.target.value)),
 });
 

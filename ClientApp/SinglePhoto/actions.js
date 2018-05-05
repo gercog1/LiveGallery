@@ -2,6 +2,7 @@ import { singleConstants} from './constants';
 import { singleServices} from './services';
 import {globalService} from "../services";
 
+import swal from 'sweetalert';
 
 const getComments = (id) => {
   function request() { return { type: singleConstants.GET_POST_COMMENTS_REQUEST }; }
@@ -50,15 +51,26 @@ const setLike = (postId, userId) => (dispatch) => {
     });
 };
 
-const addComment = (postId, userId) => (dispatch, getState) => {
+const addComment = (postId) => (dispatch, getState) => {
   const { postComments: { comment }} = getState();
-  singleServices.addComment(postId, userId, comment)
+  singleServices.addComment(postId, localStorage.getItem('id'), comment)
     .then(response => {
       dispatch(getComments(postId));
       dispatch(resetInput());
     })
     .catch(error => {
+      swal(error.message, '', 'error');
+    });
+};
 
+const deleteComment = (commentId, postId) => (dispatch) => {
+  singleServices.deleteComment(commentId)
+    .then(response => {
+      dispatch(getComments(postId));
+      dispatch(resetInput());
+    })
+    .catch(error => {
+      swal(error.message, '', 'error');
     });
 };
 
@@ -72,6 +84,7 @@ const actions = {
   addComment,
   setCommentText,
   resetInput,
+  deleteComment,
 };
 
 export default actions;

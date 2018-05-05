@@ -1,4 +1,5 @@
 import { randomConstants } from './constants';
+import {userConstants} from "../UserPage/constants";
 
 const initialStateRandom = {
   isLoggedRandomPosts: false,
@@ -19,6 +20,8 @@ export const randomPosts = (state = initialStateRandom , action) => {
     };
   case randomConstants.GET_RANDOM_USER_PROFILE_POSTS_FAILURE:
     return {};
+  case randomConstants.CLEAR_USER_INF:
+    return initialStateRandom;
   default:
     return state;
   }
@@ -43,6 +46,30 @@ export const randomUser = (state = initialStateRandomUser , action) => {
     };
   case randomConstants.GET_RANDOM_USER_FAILURE:
     return {};
+  case randomConstants.CLEAR_USER_INF:
+    return initialStateRandomUser;
+  default:
+    return state;
+  }
+};
+
+const initialState = {
+  description: '',
+  file: ''
+};
+
+export const addPhoto = (state = initialState, action ) => {
+  switch (action.type) {
+  case randomConstants.SET_ADD_PHOTO_DESCRIPTION:
+    return {
+      ...state,
+      description: action.description
+    };
+  case randomConstants.SET_ADD_PHOTO_FILE:
+    return {
+      ...state,
+      file: action.file,
+    };
   default:
     return state;
   }

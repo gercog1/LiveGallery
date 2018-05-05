@@ -14,13 +14,13 @@ const RegistrationForm = props => {
     setImage,
     setConfirmPassword,
     register,
-      username,
-      email,
-      firstName,
-      lastName,
-      password,
-      confirmPassword,
-      image,
+    username,
+    email,
+    firstName,
+    lastName,
+    password,
+    confirmPassword,
+    image,
   } = props;
 
   return (
@@ -34,7 +34,7 @@ const RegistrationForm = props => {
           onChange={setUsername}
           required
           placeholder="Username"
-            value={username}
+          value={username}
         />
       </div>
       <div className={'form-group'}>
@@ -44,7 +44,7 @@ const RegistrationForm = props => {
           onChange={setEmail}
           required
           placeholder="Email"
-            value={email}
+          value={email}
         />
       </div>
       <div className={'form-group'}>
@@ -54,7 +54,7 @@ const RegistrationForm = props => {
           onChange={setFirstName}
           required
           placeholder="First name"
-            value={firstName}
+          value={firstName}
         />
       </div>
       <div className={'form-group'}>
@@ -64,7 +64,7 @@ const RegistrationForm = props => {
           onChange={setLastName}
           required
           placeholder="Last name"
-            value={lastName}
+          value={lastName}
         />
       </div>
       <div className={'form-group'}>
@@ -90,12 +90,15 @@ const RegistrationForm = props => {
       </div>
       <div className={'form-group'}>
         <input
-          type="text"
+          type="file"
+          accept="image/*"
+          name="image1"
           className="form-control"
           onChange={setImage}
+          data-button-text="Single"
+          data-class-button="btn btn-default"
+          data-classinput="form-control inline"
           required
-          placeholder="Image"
-          value={image}
         />
 
       </div>
@@ -115,7 +118,7 @@ const mapDispatchToProps = dispatch => ({
   setLastName: e => dispatch(actions.setRegLastName(e.target.value)),
   setPassword: e => dispatch(actions.setRegPassword(e.target.value)),
   setConfirmPassword: e => dispatch(actions.setRegConfirmPassword(e.target.value)),
-  setImage: e => dispatch(actions.setRegImage(e.target.value)),
+  setImage: e => dispatch(actions.setRegImage(e.target.files[0])),
   register: e => {
     e.preventDefault();
     dispatch(actions.register());
