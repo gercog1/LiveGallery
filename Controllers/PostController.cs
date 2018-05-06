@@ -23,11 +23,17 @@ namespace LiveGallery.Controllers
         [HttpGet]
         public IActionResult GetUserPosts(string userID)
         {
-            return Json(_context.Posts
+            var result  = _context.Posts
                                 .Include(x => x.Likes)
-                                .Include(x => x.Comments)
                                 .Where(x => x.UserId == userID)
-                                .OrderBy(x => x.Date));
+                                .OrderBy(x => x.Date);
+
+            foreach(var item in result)
+            {
+                item.Comments = _context.Comments.Where(x => x.PostId == item.Id).ToList();
+            }
+
+            return Json(result);
         }
 
         [HttpGet]
@@ -63,6 +69,11 @@ namespace LiveGallery.Controllers
                                        .Include(x => x.Likes)
                                        .Include(x => x.Comments)
                                        .Where(x => x.UserId == item.SubscriberId);
+
+                    foreach (var element in post)
+                    {
+                        element.Comments = _context.Comments.Where(x => x.PostId == item.Id).ToList();
+                    }
 
                     if (post != null) posts.AddRange(post);
                 }

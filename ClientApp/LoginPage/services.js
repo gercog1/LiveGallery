@@ -12,7 +12,7 @@ export const loginService = {
     data.append('FirstName', firstName);
     data.append('LastName', lastName);
     data.append('Password', password);
-    data.append('PhotoURL', image);
+    data.append('Photo', image);
     return axios.post('/Account/Register', data, {
       headers: {
         dataType: 'json',

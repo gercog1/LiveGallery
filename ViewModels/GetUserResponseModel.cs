@@ -6,7 +6,6 @@ namespace LiveGallery.ViewModels
     {
         public User User { get; set; }
         public int SubscribersCount { get; set; }
-        public int FollowersCount { get; set; }
-        public int CommentsCount { get; set; }
+        public int SubscriptionsCount { get; set; }
     }
 }

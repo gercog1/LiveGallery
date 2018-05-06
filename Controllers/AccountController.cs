@@ -25,7 +25,7 @@ namespace LiveGallery.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Register([FromBody]RegisterViewModel model)
+        public async Task<IActionResult> Register([FromForm]RegisterViewModel model)
         {
             var user = _context.Users.FirstOrDefault(x => x.Email == model.Email);
 
@@ -130,9 +130,7 @@ namespace LiveGallery.Controllers
                     model.SubscribersCount = _context.Subscribers
                                                  .Where(x => x.UserId == userID)
                                                  .Count();
-                    model.FollowersCount = _context.Subscribers.Where(x => x.SubscriberId == userID)
-                                                               .Count();
-                    model.CommentsCount = _context.Comments.Where(x => x.UserId == userID).Count();
+                    model.SubscriptionsCount = _context.Subscribers.Where(x => x.SubscriberId == userID).Count();
 
                     return Json(model);
                 }
@@ -167,7 +165,7 @@ namespace LiveGallery.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetSubscribers(string userID)
+        public IActionResult GetSubscriptions(string userID)
         {
             if (userID == null) return BadRequest("ID is null");
 
@@ -177,7 +175,7 @@ namespace LiveGallery.Controllers
         }
 
         [HttpGet]
-        public IActionResult GetFollowers(string userID)
+        public IActionResult GetSubscribers(string userID)
         {
             if (userID == null) return BadRequest("ID is null");
 
