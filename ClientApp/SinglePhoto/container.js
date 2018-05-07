@@ -9,7 +9,9 @@ import { Image } from 'react-bootstrap';
 
 const SinglePhoto = props => {
   const {match, post, setLike, comments,
-    isLoadedPostComments, addComment, setCommentText, comment, deleteComment
+    isLoadedPostComments, addComment, setCommentText, comment, deleteComment,
+      postUserName,
+      postUserId
   } = props;
 
   return(
@@ -18,8 +20,7 @@ const SinglePhoto = props => {
         <div style={{ marginBottom: 10}} className="grid-photo-wrap">
           {/*<div className="row">*/}
             {/*<div className="col-md-2">*/}
-              <Image width="30" height="30" circle style={{ display: 'inline-block'}}/>
-            <Link className="font-bold" to='/' style={{ color: '#669091'}}> Username</Link>
+            <Link className="font-bold" to={`/user/${postUserId}`} style={{ color: '#669091'}}> {postUserName}</Link>
             {/*</div>*/}
           </div>
         <div className="grid-photo-wrap">
@@ -81,7 +82,9 @@ const SinglePhoto = props => {
 
 const mapStateToProps = state => ({
   isLoadedOnePost: state.onePhoto.isLoadedOnePost,
-  post: state.onePhoto.post,
+  post: state.onePhoto.post.post,
+    postUserName: state.onePhoto.post.userName,
+    postUserId: state.onePhoto.post.userId,
   comments: state.postComments.comments,
   isLoadedPostComments: state.postComments.isLoadedPostComments,
   comment: state.postComments.comment,
