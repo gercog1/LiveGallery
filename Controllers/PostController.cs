@@ -39,9 +39,16 @@ namespace LiveGallery.Controllers
         [HttpGet]
         public IActionResult GetPost(string postId)
         {
-            var post = _context.Posts.Include(x => x.Likes).Include(x => x.User).Where(x => x.Id == postId).FirstOrDefault();
+            var model = new GetPostViewModel();
+            model.Post = _context.Posts.Include(x => x.Likes).Where(x => x.Id == postId).FirstOrDefault();
+            if(model.Post != null)
+            {
+                var user = _context.Users.Where(x => x.ID == model.Post.UserId).FirstOrDefault();
+                model.UserId = user.ID;
+                model.UserName = user.UserName;
 
-            if(post != null) return Json(post);
+                return Json(model);
+            }
             else return BadRequest("post not found");
         }
 
