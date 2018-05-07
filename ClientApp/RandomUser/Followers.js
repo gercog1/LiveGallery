@@ -37,17 +37,20 @@ const Followers = props => {
                     <h3 style={{ display: 'inline-block'}}><Link to={`/user/${user.id}`}> {user.userName}</Link></h3>
                     <h3 style={{ fontWeight: 400}}>{user.firstName} {user.lastName}</h3>
                   </div>
-                  <div className="col-md-offset-10">
-                    {
-                      following.some(follower => follower == user.id) ?
-                        <button style={{marginRight: 20}} onClick={() => subscribe(user.id)}
-                          className="btn btn-warning block m-b">Unfollow</button>
-                        :
-                        <button style={{marginRight: 20}} onClick={() => subscribe(user.id)}
-                          className="btn btn-primary block m-b">Follow</button>
+                  {
+                    user.id != localStorage.getItem('id') &&
+                        <div className="col-md-offset-10">
+                          {
+                            following.some(follower => follower == user.id) ?
+                              <button style={{marginRight: 20}} onClick={() => subscribe(user.id)}
+                                className="btn btn-warning block m-b">Unfollow</button>
+                              :
+                              <button style={{marginRight: 20}} onClick={() => subscribe(user.id)}
+                                className="btn btn-primary block m-b">Follow</button>
 
-                    }
-                  </div>
+                          }
+                        </div>
+                  }
                 </div>
               </ListGroupItem>))
           }

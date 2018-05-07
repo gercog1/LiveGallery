@@ -13,7 +13,7 @@ const UserList = props => {
       <figure style={{ flexBasis: 'none', height: 600 }} className="grid-figure">
         <ListGroup>
           {
-            users.filter(user => user.id != localStorage.getItem('id')).map(user=>(
+            users.filter(user => user.id != localStorage.getItem('id') && user.userName != 'admin').map(user=>(
               <ListGroupItem key={user.id}>
                 <div className="row">
                   <div className="col-md-1">

@@ -36,9 +36,14 @@ const Following = props => {
                   <h3 style={{ display: 'inline-block'}}><Link to={`/user/${user.id}`}> {user.userName}</Link></h3>
                   <h3 style={{ fontWeight: 400}}>{user.firstName} {user.lastName}</h3>
                 </div>
-                <div className="col-md-offset-10">
-                  <button style={{ marginRight: 20}} onClick={() => subscribe(user.id)} className="btn btn-primary block m-b">Unfollow</button>
-                </div>
+                {
+                  user.id != localStorage.getItem('id') &&
+                      <div className="col-md-offset-10">
+                        <button style={{marginRight: 20}} onClick={() => subscribe(user.id)}
+                          className="btn btn-warning block m-b">Unfollow
+                        </button>
+                      </div>
+                }
               </div>
             </ListGroupItem>))
         }
