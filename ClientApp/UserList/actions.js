@@ -1,5 +1,6 @@
 import { listConstants } from "./constants";
 import { listServices } from './services';
+import userActions from '../UserPage/actions';
 
 import swal from "sweetalert";
 
@@ -24,7 +25,8 @@ const getUsers = () => {
 const subscribe = (userId) => (dispatch) => {
   listServices.subscribe(localStorage.getItem('id'), userId)
     .then(response => {
-      swal('You subscribe on :)', '', 'success');
+      dispatch(getUsers());
+      dispatch(userActions.getUserProfile(localStorage.getItem('id')));
     })
     .catch(error => {
       swal(error.message, '', 'error');

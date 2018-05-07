@@ -11,50 +11,48 @@ const Following = props => {
   const {showFollowing,
     closeFollowing,
     isLoadedFollowing,
-    following
+    following,
+    subscribe
   } = props;
 
   return (
-    <div className="inmodal">
-      <Modal style={{ top: `${20}%` }} className="modal-container" show={showFollowing} onHide={closeFollowing}>
-        <form
-          className="m-t"
-          role="form"
-          // onSubmit={addPhoto}
-        >
-          <Modal.Header closeButton>
-            <h4 className="modal-title">Following</h4>
-          </Modal.Header>
-          <Modal.Body >
-            {
-              isLoadedFollowing && following.map(user => (
-                <ListGroupItem key={user.id}>
-                  <div className="row">
-                    <div className="col-md-2">
-                      <Image
-                          className="img-fluid"
-                        src={user.photoURL}
-                        style={{ width: '100%', height: 60}}
-                      />
-                    </div>
-                    <div className="col-md-3">
-                      <h3 style={{ display: 'inline-block'}}><Link to={`/user/${user.id}`}> {user.userName}</Link></h3>
-                      <h3 style={{ fontWeight: 400}}>{user.firstName} {user.lastName}</h3>
-                    </div>
+    <Modal style={{ top: `${20}%` }} className="modal-container" show={showFollowing} onHide={closeFollowing}>
+      <Modal.Header closeButton>
+        <h4 className="modal-title">Following</h4>
+      </Modal.Header>
+      <Modal.Body >
+        {
+          isLoadedFollowing && following.map(user => (
+            <ListGroupItem key={user.id}>
+              <div className="row">
+                <div className="col-md-2">
+                  <Image
+                    className="img-fluid"
+                    src={user.photoURL}
+                    style={{ width: '100%', height: 60}}
+                  />
+                </div>
+                <div className="col-md-3">
+                  <h3 style={{ display: 'inline-block'}}><Link to={`/user/${user.id}`}> {user.userName}</Link></h3>
+                  <h3 style={{ fontWeight: 400}}>{user.firstName} {user.lastName}</h3>
+                </div>
+                {
+                  user.id != localStorage.getItem('id') &&
                       <div className="col-md-offset-10">
-                          <button style={{ marginRight: 20}} className="btn btn-primary block m-b">Unfollow</button>
+                        <button style={{marginRight: 20}} onClick={() => subscribe(user.id)}
+                          className="btn btn-warning block m-b">Unfollow
+                        </button>
                       </div>
-                  </div>
-                </ListGroupItem>))
-            }
-          </Modal.Body>
+                }
+              </div>
+            </ListGroupItem>))
+        }
+      </Modal.Body>
 
-          <Modal.Footer>
-            <button type="button" className="btn btn-white" onClick={closeFollowing}>Close</button>
-          </Modal.Footer>
-        </form>
-      </Modal>
-    </div>
+      <Modal.Footer>
+        <button type="button" className="btn btn-white" onClick={closeFollowing}>Close</button>
+      </Modal.Footer>
+    </Modal>
   );
 };
 
@@ -66,7 +64,7 @@ const mapStateToProps = state => ({
 
 const mapDispatchToProps = (dispatch, ownProps) => ({
   getFollowing: id => dispatch(actions.getFollowing(id)),
-
+  subscribe: userId => dispatch(actions.subscribe(userId)),
 });
 
 

@@ -1,9 +1,13 @@
 import * as React from 'react';
 import { Image } from 'react-bootstrap';
+import {branch, compose, lifecycle, renderComponent} from 'recompose';
+import { connect } from 'react-redux';
+import actions from '../UserPage/actions';
 
 import {Link} from  'react-router-dom';
+import {Loading} from "../Loading";
 
-export const Layout = React.createClass({
+const Layout = React.createClass({
   render(){
     return(<div>
       <h1>
@@ -23,3 +27,24 @@ export const Layout = React.createClass({
     </div>
     );}
 });
+
+const mapDispatchToProps = dispatch => ({
+  getUserProfile: id => dispatch(actions.getUserProfile(id)),
+});
+
+const mapStateToProps = state => ({
+  isLoadedUser: state.userProfile.isLoadedUser,
+});
+export default compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  lifecycle({
+    componentWillMount(){
+      this.props.getUserProfile(localStorage.getItem('id'));
+    }
+  }),
+  branch(
+    ({isLoadedUser}) => isLoadedUser,
+    renderComponent(Layout),
+    renderComponent(Loading)
+  )
+)(Layout);
