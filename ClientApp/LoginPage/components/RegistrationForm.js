@@ -105,13 +105,13 @@ const RegistrationForm = props => {
       <button
         type="submit"
         className="btn btn-primary block full-width m-b"
-      >Login
+      >Register
       </button>
     </form>
   );
 };
 
-const mapDispatchToProps = dispatch => ({
+const mapDispatchToProps = (dispatch, ownProps) => ({
   setUsername: e => dispatch(actions.setRegUsername(e.target.value)),
   setEmail: e => dispatch(actions.setRegEmail(e.target.value)),
   setFirstName: e => dispatch(actions.setRegFirstName(e.target.value)),
@@ -121,7 +121,7 @@ const mapDispatchToProps = dispatch => ({
   setImage: e => dispatch(actions.setRegImage(e.target.files[0])),
   register: e => {
     e.preventDefault();
-    dispatch(actions.register());
+    dispatch(actions.register(ownProps.changeKey));
   }
 });
 

@@ -27,7 +27,7 @@ const LoginPage = props => {
                     <p className="text-navy" style={{ marginBottom: 20 }}>
                         Sign in into your Account
                     </p>
-                    { tabKey === 1 ? <LoginForm/> : <RegisterForm/>}
+                    { tabKey === 1 ? <LoginForm/> : <RegisterForm changeKey={changeKey}/>}
                 </div>
 
             </div>

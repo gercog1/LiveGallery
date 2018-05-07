@@ -22,7 +22,7 @@ export const login = (username, password) => {
       })
       .catch(error => {
         dispatch(failure(error));
-        swal(error.data.message, '', 'error');
+        swal(error.response.data, '', 'error');
       });
   };
 };
@@ -41,13 +41,14 @@ export const setRegConfirmPassword = confirmPassword => ({ type: loginConstants.
 export const setRegImage = image => ({ type: loginConstants.SET_REGISTRATION_IMAGE, image });
 
 
-export const register = () => (dispatch, getState) => {
+export const register = (changeKey) => (dispatch, getState) => {
   const { login : { registrationInput: { username, email, firstName, lastName, password, image, confirmPassword } } } = getState();
   if(password === confirmPassword){
     loginService.registration({username, email, firstName, lastName, password, image })
       .then(response => {
         dispatch(resetForm());
         swal('success','','success');
+        changeKey(1);
       })
       .catch(error => {
         swal(error.message,'','success');

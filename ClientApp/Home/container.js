@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 import { getAllPosts, setLike} from "./actions";
 
 import { Loading} from "../Loading";
-
+import { formatDescription } from "../functions";
 
 const PhotoGrid = props => {
   const { posts, setLike } = props;
@@ -25,7 +25,7 @@ const PhotoGrid = props => {
                   </Link>
                 </div>
                 <figcaption>
-                  <p>{post.description}</p>
+                  <p>{formatDescription(post.description)}</p>
                   <div className="control-buttons">
                     <button
                       onClick={() => setLike(post.id, localStorage.getItem('id'))}
@@ -35,11 +35,15 @@ const PhotoGrid = props => {
                           <span style={{ fontSize: 30, color: '#d65933'}}>&hearts;</span>
                           :
                           <span style={{ fontSize: 30}}>&hearts;</span>
-                      }{post.likes.length}</button>
+                      }<span style={{ display: 'inline-block', position: 'absolute', marginTop: 8, fontSize: '15px'}}>
+                        {' ' +post.likes.length}
+                      </span>
+                    </button>
                     <Link className="button" to={`/photo/${post.id}`}>
                       <span className="comment-count">
                         <span className="speech-bubble" />
                       </span>
+                      { ' ' + post.comments.length}
                     </Link>
                   </div>
                 </figcaption>

@@ -28,8 +28,8 @@ const getRandomPosts = (id) => {
   };
 };
 
-const setLike = (postId, userId) => (dispatch) => {
-  globalService.setLike(postId, userId)
+const setLike = (postId, id, userId) => (dispatch) => {
+  globalService.setLike(postId, id)
     .then(response => {
       dispatch(getRandomPosts(userId));
 
@@ -55,7 +55,7 @@ const getRandomUser = (id) => {
       })
       .catch(error => {
         dispatch(failure(error));
-
+        swal(error.response.data, '', 'error');
       });
   };
 };

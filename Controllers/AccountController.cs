@@ -97,7 +97,7 @@ namespace LiveGallery.Controllers
 
                 return Json(user);
             }
-            else return BadRequest("Try again");
+            else return BadRequest("Password or email is incorrect");
         }
 
         [HttpPost]
@@ -122,7 +122,7 @@ namespace LiveGallery.Controllers
                 var user = _context.Users.FirstOrDefault(x => x.ID == userID);
                 if (user == null)
                 {
-                    return BadRequest("User npt found");
+                    return BadRequest("User not found");
                 }
                 else
                 {

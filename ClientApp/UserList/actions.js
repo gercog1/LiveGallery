@@ -22,7 +22,7 @@ const getUsers = () => {
 };
 
 const subscribe = (userId) => (dispatch) => {
-  listServices.subscribe(localStorage.getItem('id', userId))
+  listServices.subscribe(localStorage.getItem('id'), userId)
     .then(response => {
       swal('You subscribe on :)', '', 'success');
     })
