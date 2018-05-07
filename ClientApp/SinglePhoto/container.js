@@ -5,6 +5,7 @@ import actions from './actions';
 import posts from './posts';
 import { Link, withRouter } from 'react-router-dom';
 import { Loading } from '../Loading';
+import { Image } from 'react-bootstrap';
 
 const SinglePhoto = props => {
   const {match, post, setLike, comments,
@@ -14,19 +15,22 @@ const SinglePhoto = props => {
   return(
     <div className="single-photo">
       <figure className="grid-figure">
+        <div style={{ marginBottom: 10}} className="grid-photo-wrap">
+          {/*<div className="row">*/}
+            {/*<div className="col-md-2">*/}
+              <Image width="30" height="30" circle style={{ display: 'inline-block'}}/>
+            <Link className="font-bold" to='/' style={{ color: '#669091'}}> Username</Link>
+            {/*</div>*/}
+          </div>
         <div className="grid-photo-wrap">
           <img src={post.imageURL} alt={post.imageURL} className="grid-photo" />
         </div>
 
         <figcaption style={{ wordWrap: 'break-word'}}>
-          {/*<div className="row">*/}
-          {/*<div className="col-lg-12">*/}
           <p>{post.description}</p>
-          {/*</div>*/}
-          {/*</div>*/}
           <div className="control-buttons">
             <button
-              onClick={() => setLike(post.id, post.userId)}
+              onClick={() => setLike(post.id, localStorage.getItem('id'))}
               className="likes">
               {
                 post.likes.some( like => like.userId === localStorage.getItem('id')) ?
@@ -34,12 +38,15 @@ const SinglePhoto = props => {
                   :
                   <span style={{ fontSize: 30}}>&hearts;</span>
               }
-
-              {post.likes.length}</button>
+              <span style={{ display: 'inline-block', position: 'absolute', marginTop: 8, fontSize: '15px'}}>
+                {' ' +post.likes.length}
+              </span>
+            </button>
             <button className="button" >
               <span className="comment-count">
                 <span className="speech-bubble" />
               </span>
+              { ' ' + post.comments.length}
             </button>
           </div>
         </figcaption>
@@ -48,7 +55,7 @@ const SinglePhoto = props => {
         {isLoadedPostComments && comments.length > 0 && comments.map(comment => (
           <div key={comment.id} className="comment">
             <p>
-              <strong>{comment.user.userName}</strong>
+                <strong style={{ color: '#669091', cursor: 'pointer'}}><Link to={comment.user.id == localStorage.getItem('id') ? '/profile' : `/user/${comment.user.id}`}>{comment.user.userName}</Link></strong>
               {comment.text}
               {
                 comment.user.id == localStorage.getItem('id') &&
