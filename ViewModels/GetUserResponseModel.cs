@@ -5,7 +5,7 @@ namespace LiveGallery.ViewModels
     public class GetUserResponseModel
     {
         public User User { get; set; }
-        public int SubscribersCount { get; set; }
-        public int SubscriptionsCount { get; set; }
+        public List<string> Followers { get; set; }
+        public List<string> Followings { get; set; }
     }
 }

@@ -39,7 +39,7 @@ namespace LiveGallery.Controllers
         [HttpGet]
         public IActionResult GetPost(string postId)
         {
-            var post = _context.Posts.Include(x => x.Likes).Where(x => x.Id == postId).FirstOrDefault();
+            var post = _context.Posts.Include(x => x.Likes).Include(x => x.User).Where(x => x.Id == postId).FirstOrDefault();
 
             if(post != null) return Json(post);
             else return BadRequest("post not found");
@@ -154,6 +154,24 @@ namespace LiveGallery.Controllers
                 return Json(post.Likes.Count);
             }
             else return BadRequest("post not found");
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> DeletePost(string postID)
+        {
+            var post = _context.Posts.Where(x => x.Id == postID).FirstOrDefault();
+
+            if (post == null) return BadRequest("post not found");
+
+            var commentsToDelete = _context.Comments.Where(x => x.PostId == postID);
+
+            _context.Comments.RemoveRange(commentsToDelete);
+            post.Likes.Clear();
+            _context.Posts.Remove(post);
+
+            await _context.SaveChangesAsync();
+
+            return Ok();
         }
     }
 }

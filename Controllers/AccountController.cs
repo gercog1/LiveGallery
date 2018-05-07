@@ -53,7 +53,7 @@ namespace LiveGallery.Controllers
                 }
 
                 string path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", model.Photo.FileName);
-                string newFileName = model.Email + Guid.NewGuid().ToString() + "." + ext;
+                string newFileName = model.UserName + Guid.NewGuid().ToString() + "." + ext;
                 string newPath = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images", newFileName);
 
                 using (var stream = new FileStream(path, FileMode.Create))
@@ -71,7 +71,8 @@ namespace LiveGallery.Controllers
                     PasswordHash = LiveGallery.Helpers.RijndaelForPassword.EncryptStringAES(model.Password, model.Email),
                     FirstName = model.FirstName,
                     LastName = model.LastName,
-                    PhotoURL = Url.Content("~/images/" + newFileName)
+                    PhotoURL = Url.Content("~/images/" + newFileName),
+                    Role = 0
                 };
 
                 _context.Users.Add(newUser);
@@ -127,10 +128,8 @@ namespace LiveGallery.Controllers
                 {
                     GetUserResponseModel model = new GetUserResponseModel();
                     model.User = user;
-                    model.SubscribersCount = _context.Subscribers
-                                                 .Where(x => x.UserId == userID)
-                                                 .Count();
-                    model.SubscriptionsCount = _context.Subscribers.Where(x => x.SubscriberId == userID).Count();
+                    model.Followers = _context.Subscribers.Where(x => x.UserId == userID).Select(x => x.SubscriberId).ToList();
+                    model.Followings = _context.Subscribers.Where(x => x.SubscriberId == userID).Select(x => x.UserId).ToList();
 
                     return Json(model);
                 }
@@ -182,6 +181,27 @@ namespace LiveGallery.Controllers
             var followers = _context.Subscribers.Where(x => x.SubscriberId == userID);
 
             return Json(followers);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> DeleteUser(string userID)
+        {
+            var user = _context.Users.Where(z => z.ID == userID).FirstOrDefault();
+
+            if (user == null) return BadRequest("user not found");
+
+            var commentsToDelete = _context.Comments.Where(x => x.UserId == userID);
+            var followToDelete = _context.Subscribers.Where(x => x.UserId == userID || x.SubscriberId == userID);
+            var postsToDelete = _context.Posts.Where(x => x.UserId == userID);
+
+            _context.Comments.RemoveRange(commentsToDelete);
+            _context.Subscribers.RemoveRange(followToDelete);
+            _context.Posts.RemoveRange(postsToDelete);
+            _context.Users.Remove(user);
+
+            await _context.SaveChangesAsync();
+
+            return Ok();
         }
 
         private async Task Authenticate(User user)

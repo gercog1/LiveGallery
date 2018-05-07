@@ -4,6 +4,8 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
+using Microsoft.EntityFrameworkCore.Storage;
+using Microsoft.EntityFrameworkCore.Storage.Internal;
 using System;
 
 namespace repos.Migrations
@@ -83,13 +85,11 @@ namespace repos.Migrations
 
                     b.Property<string>("SubscriberId");
 
-                    b.Property<string>("UserID");
+                    b.Property<string>("UserId");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserID");
-
-                    b.ToTable("Subscribe");
+                    b.ToTable("Subscribers");
                 });
 
             modelBuilder.Entity("LiveGallery.Models.User", b =>
@@ -106,6 +106,8 @@ namespace repos.Migrations
                     b.Property<string>("PasswordHash");
 
                     b.Property<string>("PhotoURL");
+
+                    b.Property<int>("Role");
 
                     b.Property<string>("UserName");
 
@@ -134,16 +136,9 @@ namespace repos.Migrations
 
             modelBuilder.Entity("LiveGallery.Models.Post", b =>
                 {
-                    b.HasOne("LiveGallery.Models.User")
+                    b.HasOne("LiveGallery.Models.User", "User")
                         .WithMany("Posts")
                         .HasForeignKey("UserId");
-                });
-
-            modelBuilder.Entity("LiveGallery.Models.Subscribe", b =>
-                {
-                    b.HasOne("LiveGallery.Models.User")
-                        .WithMany("Subscribers")
-                        .HasForeignKey("UserID");
                 });
 #pragma warning restore 612, 618
         }
