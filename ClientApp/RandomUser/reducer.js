@@ -74,3 +74,52 @@ export const addPhoto = (state = initialState, action ) => {
     return state;
   }
 };
+
+const initialStateFollowers = {
+  isLoadedFollowers: false,
+  followers: [],
+};
+
+export const followers = (state = initialStateFollowers , action) => {
+  switch (action.type) {
+  case randomConstants.GET_FOLLOWERS_REQUEST:
+    return {
+      ...state,
+    };
+  case randomConstants.GET_FOLLOWERS_SUCCESS:
+    return {
+      ...state,
+      followers: action.followers,
+      isLoadedFollowers: true,
+    };
+  case randomConstants.GET_FOLLOWERS_FAILURE:
+    return {};
+  default:
+    return state;
+  }
+};
+
+const initialStateFollowing = {
+  isLoadedFollowing: false,
+  following: [],
+};
+
+
+export const following = (state = initialStateFollowing , action) => {
+  switch (action.type) {
+  case randomConstants.GET_FOLLOWING_REQUEST:
+    return {
+      ...state,
+    };
+  case randomConstants.GET_FOLLOWING_SUCCESS:
+    return {
+      ...state,
+      following: action.following,
+      isLoadedFollowing: true,
+    };
+  case randomConstants.GET_FOLLOWING_FAILURE:
+    return {};
+  default:
+    return state;
+  }
+};

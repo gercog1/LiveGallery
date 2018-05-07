@@ -1,12 +1,13 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { compose, lifecycle, branch, renderComponent } from 'recompose';
 import { Modal } from 'react-bootstrap';
 import actions from './actions';
 
 
 const Followers = props => {
   const {showFollowers,
-      closeFollowers,
+    closeFollowers,
   } = props;
 
   return (
@@ -32,9 +33,23 @@ const Followers = props => {
   );
 };
 
+const mapStateToProps = state => ({
+  isLoadedFollowers: state.followers.isLoadedFollowers,
+  followers: state.followers.followers,
+
+});
+
 const mapDispatchToProps = (dispatch, ownProps) => ({
+  getFollowers: id => dispatch(actions.getFollowers(id)),
 
 });
 
 
-export default connect(null, mapDispatchToProps)(Followers);
+export default compose(
+  connect(mapStateToProps, mapDispatchToProps),
+  lifecycle({
+    componentWillMount(){
+      this.props.getFollowers(this.props.userId);
+    }
+  })
+)(Followers);

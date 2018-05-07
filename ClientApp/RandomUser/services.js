@@ -22,6 +22,15 @@ export const randomService = {
       },
     });
   },
+  deletePhoto(postId){
+    return axios.post(`/Post/DeletePost?=${postId}`, {});
+  },
+  getFollowers(id){
+    return axios.post(`/Account/GetSubscriptions?=${id}`, {});
+  },
+  getFollowing(id){
+    return axios.post(`/Account/GetSubscribers?=${id}`, {});
+  },
 };
 
 

@@ -39,6 +39,17 @@ const setLike = (postId, id, userId) => (dispatch) => {
     });
 };
 
+const deletePost = (postId, userId) => (dispatch) => {
+  randomService.deletePhoto(postId)
+    .then(response => {
+      dispatch(getRandomPosts(userId));
+
+    })
+    .catch(error => {
+      swal(error.message, '', 'error');
+    });
+};
+
 
 const getRandomUser = (id) => {
   function request() { return { type: randomConstants.GET_RANDOM_USER_REQUEST }; }
@@ -80,14 +91,57 @@ const addPhoto = (closeModal) => (dispatch, getState) => {
     });
 };
 
+const getFollowers = (id) => {
+  function request() { return { type: randomConstants.GET_FOLLOWERS_REQUEST }; }
+  function success(followers) { return { type: randomConstants.GET_FOLLOWERS_SUCCESS, followers }; }
+  function failure(error) { return { type: randomConstants.GET_FOLLOWERS_FAILURE, error }; }
+
+  return (dispatch) => {
+    dispatch(request());
+
+    randomService.getFollowers(id)
+      .then(response => {
+        dispatch(success(response.data));
+      })
+      .catch(error => {
+        dispatch(failure(error));
+        swal(error.response.data, '', 'error');
+      });
+  };
+};
+
+const getFollowing = (id) => {
+  function request() { return { type: randomConstants.GET_FOLLOWING_REQUEST }; }
+  function success(following) { return { type: randomConstants.GET_FOLLOWING_SUCCESS, following }; }
+  function failure(error) { return { type: randomConstants.GET_FOLLOWING_FAILURE, error }; }
+
+  return (dispatch) => {
+    dispatch(request());
+
+    randomService.getFollowing(id)
+      .then(response => {
+        dispatch(success(response.data));
+      })
+      .catch(error => {
+        dispatch(failure(error));
+        swal(error.response.data, '', 'error');
+      });
+  };
+};
+
+
+
 const actions = {
   getRandomPosts,
   setLike,
   getRandomUser,
   clearUserInf,
-    setDescription,
-    setFile,
-    addPhoto,
+  setDescription,
+  setFile,
+  addPhoto,
+  deletePost,
+  getFollowers,
+  getFollowing
 
 };
 

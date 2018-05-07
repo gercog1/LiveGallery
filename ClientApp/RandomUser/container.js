@@ -11,7 +11,7 @@ import { formatDescription } from "../functions";
 
 import Following from './Following';
 import Followers from './Followers';
-
+import { deleteAlert } from "../functions";
 
 const RandomUser = props => {
   const {
@@ -24,13 +24,13 @@ const RandomUser = props => {
     closeFollowing,
     followers,
     following,
-
+      deletePost,
   } = props;
 
   return(
     <div>
       { showModal && <AddPhoto showModal={showModal} closeModal={closeModal}/> }
-      { showFollowers && < Followers showFollowers={showFollowers} closeFollowers={closeFollowers}/> }
+      { showFollowers && < Followers userId={user.id} showFollowers={showFollowers} closeFollowers={closeFollowers}/> }
       { showFollowing && <Following showFollowing={showFollowing} closeFollowing={closeFollowing}/> }
       <div className="photo-grid">
         <figure style={{ flexBasis: 'none', height: 200, display: 'inline-block' }} className="grid-figure">
@@ -93,12 +93,12 @@ const RandomUser = props => {
                   <div className="grid-photo-wrap" style={{ height: 500, overflow: 'hidden'}}>
                     {
                       localStorage.getItem('status') == 1 &&
-                    <span style={{ cursor: 'pointer', position: 'absolute', fontSize: 30, color: 'white', right: 0, marginTop: -5, marginRight: 5}}>
+                    <span onClick={() => deleteAlert(deletePost, post.id, user.id)} style={{ cursor: 'pointer', position: 'absolute', fontSize: 30, color: 'white', right: 0, marginTop: -5, marginRight: 5}}>
                         &times;
                     </span> }
                     {
                       user.id == localStorage.getItem('id') &&
-                          <span style={{ cursor: 'pointer', position: 'absolute', fontSize: 30, color: 'white', right: 0, marginTop: -5, marginRight: 5}}>
+                          <span onClick={() => deleteAlert(deletePost, post.id, user.id)} style={{ cursor: 'pointer', position: 'absolute', fontSize: 30, color: 'white', right: 0, marginTop: -5, marginRight: 5}}>
                         &times;
                           </span>
                     }
@@ -156,6 +156,7 @@ const mapDispatchToProps = dispatch => ({
   setLike: (postId, id, userId) => dispatch(actions.setLike(postId, id, userId)),
   clearInf: () => dispatch(actions.clearUserInf()),
   logout: () => dispatch(logout()),
+  deletePost: (postId, userId) => dispatch(actions.deletePost(postId, userId)),
 });
 
 export default compose(
