@@ -30,7 +30,7 @@ namespace LiveGallery.Controllers
 
             foreach(var item in result)
             {
-                item.Comments = _context.Comments.Where(x => x.PostId == item.Id).ToList();
+                item.Comments = _context.Comments.Where(x => x.PostId == item.Id).OrderBy(x => x.Date).ToList();
             }
 
             return Json(result);
@@ -67,12 +67,12 @@ namespace LiveGallery.Controllers
                 {
                     var post = _context.Posts
                                        .Include(x => x.Likes)
-                                       .Include(x => x.Comments)
-                                       .Where(x => x.UserId == item.SubscriberId);
+                                       .Where(x => x.UserId == item.SubscriberId)
+                                       .OrderBy(x => x.Date);
 
                     foreach (var element in post)
                     {
-                        element.Comments = _context.Comments.Where(x => x.PostId == item.Id).ToList();
+                        element.Comments = _context.Comments.Where(x => x.PostId == item.Id).OrderBy(x => x.Date).ToList();
                     }
 
                     if (post != null) posts.AddRange(post);
