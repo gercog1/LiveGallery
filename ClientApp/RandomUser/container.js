@@ -76,10 +76,16 @@ const RandomUser = props => {
                 <figure key={i} className="grid-figure" >
                   <div className="grid-photo-wrap" style={{ height: 500, overflow: 'hidden'}}>
                       {
-                          user.id == localStorage.getItem('id') &&
+                          localStorage.getItem('status') == 1 &&
                     <span style={{ cursor: 'pointer', position: 'absolute', fontSize: 30, color: 'white', right: 0, marginTop: -5, marginRight: 5}}>
                         &times;
                     </span> }
+                      {
+                          user.id == localStorage.getItem('id') &&
+                          <span style={{ cursor: 'pointer', position: 'absolute', fontSize: 30, color: 'white', right: 0, marginTop: -5, marginRight: 5}}>
+                        &times;
+                    </span>
+                      }
                     <Link to={`/photo/${post.id}`} >
                       <img src={post.imageURL} alt="image" className="grid-photo" />
                     </Link>
