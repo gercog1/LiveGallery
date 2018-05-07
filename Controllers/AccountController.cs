@@ -129,7 +129,7 @@ namespace LiveGallery.Controllers
                     GetUserResponseModel model = new GetUserResponseModel();
                     model.User = user;
                     model.Followers = _context.Subscribers.Where(x => x.SubscriberId == userID).Select(x => x.UserId).ToList();
-                    model.Followings = _context.Subscribers.Where(x => x.UserId == userID).Select(x => x.SubscriberId).ToList(); 
+                    model.Followings = _context.Subscribers.Where(x => x.UserId == userID).Select(x => x.SubscriberId).ToList();
 
                     return Json(model);
                 }
@@ -168,9 +168,19 @@ namespace LiveGallery.Controllers
         {
             if (userID == null) return BadRequest("ID is null");
 
-            var subscribers = _context.Subscribers.Where(x => x.UserId == userID);
+            var subscribers = _context.Subscribers.Where(x => x.UserId == userID).Select(x => x.SubscriberId);
 
-            return Json(subscribers);
+            List<User> users = new List<User>();
+
+            foreach (var item in subscribers)
+            {
+                var user = _context.Users.Where(x => x.ID == item).FirstOrDefault();
+                if (user != null)
+                {
+                    users.Add(user);
+                }
+            }
+            return Json(users);
         }
 
         [HttpGet]
@@ -178,9 +188,20 @@ namespace LiveGallery.Controllers
         {
             if (userID == null) return BadRequest("ID is null");
 
-            var followers = _context.Subscribers.Where(x => x.SubscriberId == userID);
+            var followers = _context.Subscribers.Where(x => x.SubscriberId == userID).Select(x => x.UserId);
 
-            return Json(followers);
+            List<User> users = new List<User>();
+
+            foreach (var item in followers)
+            {
+                var user = _context.Users.Where(x => x.ID == item).FirstOrDefault();
+                if (user != null)
+                {
+                    users.Add(user);
+                }
+            }
+
+            return Json(users);
         }
 
         [HttpGet]
