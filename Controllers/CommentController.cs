@@ -21,7 +21,7 @@ namespace LiveGallery.Controllers
         [HttpGet]
         public IActionResult GetCommentsForPost(string postID)
         {
-            var list = _context.Comments.Where(x => x.PostId == postID).Include(x => x.User).ToList();
+            var list = _context.Comments.Where(x => x.PostId == postID).Include(x => x.User).OrderBy(x => x.Date).ToList();
             return Json(list);
         }
 
