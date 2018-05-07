@@ -20,7 +20,7 @@ const SinglePhoto = props => {
         <div style={{ marginBottom: 10}} className="grid-photo-wrap">
           {/*<div className="row">*/}
             {/*<div className="col-md-2">*/}
-            <Link className="font-bold" to={`/user/${postUserId}`} style={{ color: '#669091'}}> {postUserName}</Link>
+            <Link className="font-bold" to={ localStorage.getItem('id') == postUserId ? '/profile' : `/user/${postUserId}`} style={{ color: '#669091'}}> {postUserName}</Link>
             {/*</div>*/}
           </div>
         <div className="grid-photo-wrap">

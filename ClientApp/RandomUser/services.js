@@ -23,7 +23,7 @@ export const randomService = {
     });
   },
   deletePhoto(postId){
-    return axios.post(`/Post/DeletePost?=${postId}`, {});
+    return axios.get(`/Post/DeletePost?=${postId}`);
   },
   getFollowers(id){
     return axios.get(`/Account/GetSubscriptions?=${id}`, {});

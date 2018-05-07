@@ -31,7 +31,7 @@ const RandomUser = props => {
     <div>
       { showModal && <AddPhoto showModal={showModal} closeModal={closeModal}/> }
       { showFollowers && < Followers userId={user.id} showFollowers={showFollowers} closeFollowers={closeFollowers}/> }
-      { showFollowing && <Following showFollowing={showFollowing} closeFollowing={closeFollowing}/> }
+      { showFollowing && <Following userId={user.id} showFollowing={showFollowing} closeFollowing={closeFollowing}/> }
       <div className="photo-grid">
         <figure style={{ flexBasis: 'none', height: 200, display: 'inline-block' }} className="grid-figure">
           <div className="row">
@@ -39,6 +39,7 @@ const RandomUser = props => {
               <Image
                 style={{ width: 150, height: 150, verticalAlign: 'none', position: 'absolute', display: 'block' }}
                 src={user.photoURL}
+                className="img-fluid"
                 circle responsive />
             </div>
             <div className="col-md-3">

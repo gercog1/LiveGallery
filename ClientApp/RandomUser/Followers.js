@@ -31,19 +31,15 @@ const Followers = props => {
                   isLoadedFollowers && followers.map(user => (
                   <ListGroupItem key={user.id}>
                     <div className="row">
-                      <div className="col-md-1">
+                      <div className="col-md-2">
                         <Image
                           src={user.photoURL}
-                          style={{ width: 60, height: 60}}
+                          style={{ width: '100%', height: 60}}
                         />
                       </div>
-                      <div className="col-md-2">
+                      <div className="col-md-3">
                         <h3 style={{ display: 'inline-block'}}><Link to={`/user/${user.id}`}> {user.userName}</Link></h3>
                         <h3 style={{ fontWeight: 400}}>{user.firstName} {user.lastName}</h3>
-                      </div>
-                      <div className="col-md-offset-11">
-                        {/*{ localStorage.getItem('status') == 1 && <button style={{ marginRight: 20}} onClick={() => subscribe(user.id)} className="btn btn-danger block m-b">Delete</button> }*/}
-                        {/*<button style={{ marginRight: 20}} onClick={() => subscribe(user.id)} className="btn btn-primary block m-b">Follow</button>*/}
                       </div>
                     </div>
                   </ListGroupItem>))
@@ -53,7 +49,6 @@ const Followers = props => {
 
           <Modal.Footer>
             <button type="button" className="btn btn-white" onClick={closeFollowers}>Close</button>
-            <button type="submit" className="btn btn-primary">Save</button>
           </Modal.Footer>
         </form>
       </Modal>
