@@ -27,13 +27,13 @@ const UserList = props => {
                     <h3 style={{ fontWeight: 400}}>{user.firstName} {user.lastName}</h3>
                   </div>
                   <div className="col-md-offset-11">
-                    { localStorage.getItem('status') == 1 && <button style={{ marginRight: 20}} onClick={() => subscribe(user.id)} className="btn btn-danger block m-b">Delete</button> }
+                    { localStorage.getItem('role') == 1 && <button style={{ marginRight: 20}} className="btn btn-danger block m-b">Delete</button> }
                     {
-                      following.some(follower => follower == user.id) ?
-                          <button style={{marginRight: 20}} onClick={() => subscribe(user.id)}
+                      following.some(follower => follower == user.id)   ?
+                          localStorage.getItem('role') != 1 && <button style={{marginRight: 20}} onClick={() => subscribe(user.id)}
                                   className="btn btn-warning block m-b">Unfollow</button>
                           :
-                        <button style={{marginRight: 20}} onClick={() => subscribe(user.id)}
+                          localStorage.getItem('role') != 1 && <button style={{marginRight: 20}} onClick={() => subscribe(user.id)}
                           className="btn btn-primary block m-b">Follow</button>
 
                     }

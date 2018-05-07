@@ -1,6 +1,8 @@
 import { homeConstants} from "./constants";
 import { homeService} from "./services";
 import { globalService} from "../services";
+import swal from "sweetalert";
+import {randomService} from "../RandomUser/services";
 
 export const getAllPosts = () => {
   function request() { return { type: homeConstants.GET_ALL_POSTS_REQUEST }; }
@@ -10,7 +12,15 @@ export const getAllPosts = () => {
   return (dispatch) => {
     dispatch(request());
 
-    homeService.getAllPosts()
+    let func;
+    if(localStorage.getItem('role') == 1){
+        func = homeService.getEveryPost;
+    }
+    else {
+        func = homeService.getAllPosts;
+    }
+
+      func()
       .then(response => {
         dispatch(success(response.data));
       })
@@ -29,4 +39,16 @@ export const setLike = (postId, userId) => (dispatch) => {
     .catch(error => {
 
     });
+};
+
+
+export const deletePost = (postId) => (dispatch) => {
+    randomService.deletePhoto(postId)
+        .then(response => {
+            dispatch(getAllPosts());
+
+        })
+        .catch(error => {
+            swal(error.message, '', 'error');
+        });
 };

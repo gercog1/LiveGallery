@@ -10,8 +10,8 @@ import { Image } from 'react-bootstrap';
 const SinglePhoto = props => {
   const {match, post, setLike, comments,
     isLoadedPostComments, addComment, setCommentText, comment, deleteComment,
-      postUserName,
-      postUserId
+    postUserName,
+    postUserId
   } = props;
 
   return(
@@ -19,10 +19,10 @@ const SinglePhoto = props => {
       <figure className="grid-figure">
         <div style={{ marginBottom: 10}} className="grid-photo-wrap">
           {/*<div className="row">*/}
-            {/*<div className="col-md-2">*/}
-            <Link className="font-bold" to={ localStorage.getItem('id') == postUserId ? '/profile' : `/user/${postUserId}`} style={{ color: '#669091'}}> {postUserName}</Link>
-            {/*</div>*/}
-          </div>
+          {/*<div className="col-md-2">*/}
+          <Link className="font-bold" to={localStorage.getItem('id') == postUserId ? '/profile' : `/user/${postUserId}`} style={{ color: '#669091'}}> {postUserName}</Link>
+          {/*</div>*/}
+        </div>
         <div className="grid-photo-wrap">
           <img src={post.imageURL} alt={post.imageURL} className="grid-photo" />
         </div>
@@ -56,7 +56,7 @@ const SinglePhoto = props => {
         {isLoadedPostComments && comments.length > 0 && comments.map(comment => (
           <div key={comment.id} className="comment">
             <p>
-                <strong style={{ color: '#669091', cursor: 'pointer'}}><Link to={comment.user.id == localStorage.getItem('id') ? '/profile' : `/user/${comment.user.id}`}>{comment.user.userName}</Link></strong>
+              <strong style={{ color: '#669091', cursor: 'pointer'}}><Link to={comment.user.id == localStorage.getItem('id') ? '/profile' : `/user/${comment.user.id}`}>{comment.user.userName}</Link></strong>
               {comment.text}
               {
                 comment.user.id == localStorage.getItem('id') &&
@@ -64,6 +64,12 @@ const SinglePhoto = props => {
                       onClick={() => deleteComment(comment.id, post.id)}
                     >&times;</button>
 
+              }
+              {
+                localStorage.getItem('role') == 1 &&
+                    <button className="remove-comment"
+                      onClick={() => deleteComment(comment.id, post.id)}
+                    >&times;</button>
               }
 
             </p>
@@ -83,8 +89,8 @@ const SinglePhoto = props => {
 const mapStateToProps = state => ({
   isLoadedOnePost: state.onePhoto.isLoadedOnePost,
   post: state.onePhoto.post.post,
-    postUserName: state.onePhoto.post.userName,
-    postUserId: state.onePhoto.post.userId,
+  postUserName: state.onePhoto.post.userName,
+  postUserId: state.onePhoto.post.userId,
   comments: state.postComments.comments,
   isLoadedPostComments: state.postComments.isLoadedPostComments,
   comment: state.postComments.comment,

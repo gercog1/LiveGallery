@@ -7,10 +7,11 @@ import { Link } from 'react-router-dom';
 import { getAllPosts, setLike} from "./actions";
 
 import { Loading} from "../Loading";
-import { formatDescription } from "../functions";
+import {deleteAlert, formatDescription} from "../functions";
+import {deletePost} from "./actions";
 
 const PhotoGrid = props => {
-  const { posts, setLike } = props;
+  const { posts, setLike, deletePost } = props;
 
   return(
     <div className="photo-grid">
@@ -20,6 +21,11 @@ const PhotoGrid = props => {
             <div key={post.id} className="col-md-4">
               <figure key={i} className="grid-figure" >
                 <div className="grid-photo-wrap" style={{ height: 500, overflow: 'hidden'}}>
+                    {
+                        localStorage.getItem('role') == 1 &&
+                        <span onClick={() => deleteAlert(deletePost, post.id)} style={{ cursor: 'pointer', position: 'absolute', fontSize: 30, color: 'white', right: 0, marginTop: -5, marginRight: 5}}>
+                        &times;
+                    </span> }
                   <Link to={`/photo/${post.id}`} >
                     <img src={post.imageURL} alt="image" className="grid-photo" />
                   </Link>
@@ -66,6 +72,7 @@ const mapStateToProps = state => ({
 const mapDispatchToProps = dispatch => ({
   getAllPosts: () => dispatch(getAllPosts()),
   setLike: (postId, userId) => dispatch(setLike(postId, userId)),
+    deletePost: postId => dispatch(deletePost(postId))
 });
 
 export default compose(

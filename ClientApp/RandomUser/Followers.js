@@ -38,7 +38,7 @@ const Followers = props => {
                     <h3 style={{ fontWeight: 400}}>{user.firstName} {user.lastName}</h3>
                   </div>
                   {
-                    user.id != localStorage.getItem('id') &&
+                    user.id != localStorage.getItem('id') && localStorage.getItem('role') != 1 &&
                         <div className="col-md-offset-10">
                           {
                             following.some(follower => follower == user.id) ?

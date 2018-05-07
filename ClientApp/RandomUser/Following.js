@@ -37,7 +37,7 @@ const Following = props => {
                   <h3 style={{ fontWeight: 400}}>{user.firstName} {user.lastName}</h3>
                 </div>
                 {
-                  user.id != localStorage.getItem('id') &&
+                  user.id != localStorage.getItem('id')  && localStorage.getItem('role') != 1 &&
                       <div className="col-md-offset-10">
                         <button style={{marginRight: 20}} onClick={() => subscribe(user.id)}
                           className="btn btn-warning block m-b">Unfollow
