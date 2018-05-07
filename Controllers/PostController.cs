@@ -171,8 +171,10 @@ namespace LiveGallery.Controllers
             if (post == null) return BadRequest("post not found");
 
             var commentsToDelete = _context.Comments.Where(x => x.PostId == postID);
+            var likesToDelete = _context.Like.Where(x => x.PostId == postID);
 
             _context.Comments.RemoveRange(commentsToDelete);
+            _context.Like.RemoveRange(likesToDelete);
             post.Likes.Clear();
             _context.Posts.Remove(post);
 
