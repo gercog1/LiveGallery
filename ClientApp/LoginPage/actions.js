@@ -22,7 +22,7 @@ export const login = (username, password) => {
       })
       .catch(error => {
         dispatch(failure(error));
-        swal(error.data.message, '', 'error');
+        swal(error.response.data, '', 'error');
       });
   };
 };

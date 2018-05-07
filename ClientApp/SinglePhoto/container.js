@@ -39,14 +39,14 @@ const SinglePhoto = props => {
                   <span style={{ fontSize: 30}}>&hearts;</span>
               }
               <span style={{ display: 'inline-block', position: 'absolute', marginTop: 8, fontSize: '15px'}}>
-                {' ' +post.likes.length}
+                {'  ' +post.likes.length}
               </span>
             </button>
             <button className="button" >
               <span className="comment-count">
                 <span className="speech-bubble" />
               </span>
-              { ' ' + post.comments.length}
+              { ' ' + comments.length}
             </button>
           </div>
         </figcaption>

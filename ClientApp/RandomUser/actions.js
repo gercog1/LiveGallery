@@ -55,7 +55,7 @@ const getRandomUser = (id) => {
       })
       .catch(error => {
         dispatch(failure(error));
-
+        swal(error.response.data, '', 'error');
       });
   };
 };
