@@ -128,8 +128,8 @@ namespace LiveGallery.Controllers
                 {
                     GetUserResponseModel model = new GetUserResponseModel();
                     model.User = user;
-                    model.Followers = _context.Subscribers.Where(x => x.UserId == userID).Select(x => x.SubscriberId).ToList();
-                    model.Followings = _context.Subscribers.Where(x => x.SubscriberId == userID).Select(x => x.UserId).ToList();
+                    model.Followers = _context.Subscribers.Where(x => x.SubscriberId == userID).Select(x => x.UserId).ToList();
+                    model.Followings = _context.Subscribers.Where(x => x.UserId == userID).Select(x => x.SubscriberId).ToList(); 
 
                     return Json(model);
                 }
