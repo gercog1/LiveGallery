@@ -23,13 +23,13 @@ export const randomService = {
     });
   },
   deletePhoto(postId){
-    return axios.get(`/Post/DeletePost?=${postId}`);
+    return axios.post(`/Post/DeletePost?=${postId}`, {});
   },
   getFollowers(id){
-    return axios.get(`/Account/GetSubscriptions?=${id}`, {});
+    return axios.get(`/Account/GetSubscribers?=${id}`, {});
   },
   getFollowing(id){
-    return axios.get(`/Account/GetSubscribers?=${id}`, {});
+    return axios.get(`/Account/GetSubscriptions?=${id}`, {});
   },
 };
 

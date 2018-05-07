@@ -1,14 +1,17 @@
 import * as React from 'react';
+import { compose, lifecycle } from 'recompose';
+import { connect } from 'react-redux';
 import { Route, Switch, Redirect } from 'react-router-dom';
-import { Layout } from './components/Layout';
+import Layout from './components/Layout';
 
 import LoginPage from './LoginPage/container';
 import PhotoGrid from './Home/container';
 import SinglePhoto from './SinglePhoto/container';
 import Notifications from './Notifications/container';
-import UserPage from './UserPage/container';
 import UserList from './UserList/container';
 import RandomUser from './RandomUser/container';
+
+import actions from './UserPage/actions';
 
 const Routes = () =>{
 
@@ -39,7 +42,11 @@ const Routes = () =>{
     </Switch>
   );
 };
+const mapDispatchToProps = dispatch => ({
+
+});
 
 export default Routes;
+
 
 

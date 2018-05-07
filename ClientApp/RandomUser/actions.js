@@ -5,6 +5,8 @@ import { randomService } from "./services";
 import { globalService } from "../services";
 import {userService} from "../UserPage/services";
 import {userConstants} from "../UserPage/constants";
+import {listServices} from "../UserList/services";
+import userActions from "../UserPage/actions";
 
 
 
@@ -129,6 +131,18 @@ const getFollowing = (id) => {
   };
 };
 
+const subscribe = (userId) => (dispatch) => {
+  listServices.subscribe(localStorage.getItem('id'), userId)
+    .then(response => {
+      dispatch(getFollowers(localStorage.getItem('id')));
+      dispatch(getFollowing(localStorage.getItem('id')));
+      dispatch(userActions.getUserProfile(localStorage.getItem('id')));
+      dispatch(getRandomUser(localStorage.getItem('id')));
+    })
+    .catch(error => {
+      swal(error.message, '', 'error');
+    });
+};
 
 
 const actions = {
@@ -141,7 +155,8 @@ const actions = {
   addPhoto,
   deletePost,
   getFollowers,
-  getFollowing
+  getFollowing,
+  subscribe
 
 };
 

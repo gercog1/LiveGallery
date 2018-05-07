@@ -1,34 +1,18 @@
 import swal from 'sweetalert';
 
 import { userConstants } from './constants';
-import {userService} from "./services";
-import { globalService } from "../services";
+import { randomService} from "../RandomUser/services";
 
-const setDescription = description => ({ type: userConstants.SET_ADD_PHOTO_DESCRIPTION, description });
-const setFile = file => ({ type: userConstants.SET_ADD_PHOTO_FILE, file });
 
-const addPhoto = () => (dispatch, getState) => {
-  const { addPhoto: { description, file }} = getState();
-  userService.addPhoto(description, file)
-    .then(response => {
-      dispatch(getPosts());
-      swal('success', '', 'success');
-    })
-    .catch(error => {
-
-      swal(error.message, '', 'error');
-    });
-};
-
-const getPosts = () => {
-  function request() { return { type: userConstants.GET_USER_PROFILE_POSTS_REQUEST }; }
-  function success(posts) { return { type: userConstants.GET_USER_PROFILE_POSTS_SUCCESS, posts }; }
-  function failure(error) { return { type: userConstants.GET_USER_PROFILE_POSTS_FAILURE, error }; }
+const getUserProfile = (id) => {
+  function request() { return { type: userConstants.GET_USER_PROFILE_REQUEST }; }
+  function success(user) { return { type: userConstants.GET_USER_PROFILE_SUCCESS, user }; }
+  function failure(error) { return { type: userConstants.GET_USER_PROFILE_FAILURE, error }; }
 
   return (dispatch) => {
     dispatch(request());
 
-    userService.getProfilePosts()
+    randomService.getUser(id)
       .then(response => {
         dispatch(success(response.data));
 
@@ -40,24 +24,9 @@ const getPosts = () => {
   };
 };
 
-const setLike = (postId) => (dispatch) => {
-  globalService.setLike(postId, localStorage.getItem('id'))
-    .then(response => {
-      dispatch(getPosts());
-
-    })
-    .catch(error => {
-      swal(error.message, '', 'error');
-    });
-};
-
 
 const actions = {
-  setDescription,
-  setFile,
-  addPhoto,
-  getPosts,
-  setLike,
+    getUserProfile,
 };
 
 export default actions;
