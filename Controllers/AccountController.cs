@@ -27,7 +27,7 @@ namespace LiveGallery.Controllers
         [HttpPost]
         public async Task<IActionResult> Register([FromForm]RegisterViewModel model)
         {
-            var user = _context.Users.FirstOrDefault(x => x.Email == model.Email);
+            var user = _context.Users.FirstOrDefault(x => x.Email == model.Email || x.UserName == model.UserName);
 
             if (user == null)
             {
@@ -214,7 +214,9 @@ namespace LiveGallery.Controllers
             var commentsToDelete = _context.Comments.Where(x => x.UserId == userID);
             var followToDelete = _context.Subscribers.Where(x => x.UserId == userID || x.SubscriberId == userID);
             var postsToDelete = _context.Posts.Where(x => x.UserId == userID);
+            var likesToDelete = _context.Like.Where(x => x.UserId == userID);
 
+            _context.Like.RemoveRange(likesToDelete);
             _context.Comments.RemoveRange(commentsToDelete);
             _context.Subscribers.RemoveRange(followToDelete);
             _context.Posts.RemoveRange(postsToDelete);
