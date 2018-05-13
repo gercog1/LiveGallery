@@ -28,11 +28,11 @@
 
 ## Projects roles actions
 
--Unregistred user
+Unregistred user
 ####
  - Register
  
- -Registred user
+  Registred user
 ####
  - Log in
  - Log out
@@ -46,7 +46,7 @@
  - Get user profile
  - Get all users
  
- -Registred user
+  Admin
 ####
  - Log in
  - Log out
