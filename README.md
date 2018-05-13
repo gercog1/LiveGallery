@@ -6,11 +6,10 @@
 які в свою чергу можуть вподобати запис або залишити коментар. 
 Користувач має змогу відслідковувати всі оновлення інших користувачів на яких він підписаний.
 
-## How to run the Project
+## How to run the project from console
  - Download the zip package or clone this repo
  - Install all the dependencies (packages)
- From console
- ===================
+
 ####
        > npm intall
 
@@ -57,4 +56,6 @@
  - Get all photos
  - Get all users
  - Get user profile
+ 
+ Use case schema: https://drive.google.com/open?id=10AwGJiS12AM8tf5aCGjafl3UK2iJa2rx
  
