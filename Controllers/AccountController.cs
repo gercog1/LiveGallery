@@ -72,7 +72,8 @@ namespace LiveGallery.Controllers
                     FirstName = model.FirstName,
                     LastName = model.LastName,
                     PhotoURL = Url.Content("~/images/" + newFileName),
-                    Role = 0
+                    Role = 0,
+                    Country = model.Country
                 };
 
                 _context.Users.Add(newUser);

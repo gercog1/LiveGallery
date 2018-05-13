@@ -5,12 +5,16 @@ import { connect } from 'react-redux';
 import {ListGroup, ListGroupItem, Image} from 'react-bootstrap';
 import actions from './actions';
 import { Loading } from '../Loading';
+import {deleteAlert} from "../functions";
 
 const UserList = props => {
-  const { users, subscribe, following } = props;
+  const { users, subscribe, following, deleteUser } = props;
   return(
     <div className="photo-grid">
       <figure style={{ flexBasis: 'none', height: 600 }} className="grid-figure">
+          <select defaultValue="" style={{ marginBottom: 20}}>
+              <option value="" disabled> Select category</option>
+          </select>
         <ListGroup>
           {
             users.filter(user => user.id != localStorage.getItem('id') && user.userName != 'admin').map(user=>(
@@ -27,7 +31,7 @@ const UserList = props => {
                     <h3 style={{ fontWeight: 400}}>{user.firstName} {user.lastName}</h3>
                   </div>
                   <div className="col-md-offset-11">
-                    { localStorage.getItem('role') == 1 && <button style={{ marginRight: 20}} className="btn btn-danger block m-b">Delete</button> }
+                    { localStorage.getItem('role') == 1 && <button onClick={() => deleteAlert(deleteUser, user.id)} style={{ marginRight: 20}} className="btn btn-danger block m-b">Delete</button> }
                     {
                       following.some(follower => follower == user.id)   ?
                           localStorage.getItem('role') != 1 && <button style={{marginRight: 20}} onClick={() => subscribe(user.id)}
@@ -50,6 +54,7 @@ const UserList = props => {
 const mapDispatchToProps = dispatch => ({
   getUsers: () => dispatch(actions.getUsers()),
   subscribe: userId => dispatch(actions.subscribe(userId)),
+    deleteUser: userId => dispatch(actions.deleteUser(userId)),
 });
 
 const mapStateToProps = state => ({

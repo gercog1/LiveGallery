@@ -63,6 +63,8 @@ namespace repos.Migrations
                     b.Property<string>("Id")
                         .ValueGeneratedOnAdd();
 
+                    b.Property<string>("Category");
+
                     b.Property<DateTime>("Date");
 
                     b.Property<string>("Description");
@@ -96,6 +98,8 @@ namespace repos.Migrations
                 {
                     b.Property<string>("ID")
                         .ValueGeneratedOnAdd();
+
+                    b.Property<string>("Country");
 
                     b.Property<string>("Email");
 
@@ -136,7 +140,7 @@ namespace repos.Migrations
 
             modelBuilder.Entity("LiveGallery.Models.Post", b =>
                 {
-                    b.HasOne("LiveGallery.Models.User", "User")
+                    b.HasOne("LiveGallery.Models.User")
                         .WithMany("Posts")
                         .HasForeignKey("UserId");
                 });

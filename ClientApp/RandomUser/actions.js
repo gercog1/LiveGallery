@@ -75,13 +75,13 @@ const getRandomUser = (id) => {
 
 const clearUserInf = () => ({ type: randomConstants.CLEAR_USER_INF });
 
-
+const setCategory = category => ({ type: randomConstants.SET_CATEGORY, category });
 const setDescription = description => ({ type: randomConstants.SET_ADD_PHOTO_DESCRIPTION, description });
 const setFile = file => ({ type: randomConstants.SET_ADD_PHOTO_FILE, file });
 
 const addPhoto = (closeModal) => (dispatch, getState) => {
-  const { addPhoto: { description, file }} = getState();
-  randomService.addPhoto(description, file)
+  const { addPhoto: { description, file, category }} = getState();
+  randomService.addPhoto(description, file, category)
     .then(response => {
       dispatch(getRandomPosts(localStorage.getItem('id')));
       swal('success', '', 'success');
@@ -156,7 +156,8 @@ const actions = {
   deletePost,
   getFollowers,
   getFollowing,
-  subscribe
+  subscribe,
+    setCategory
 
 };
 

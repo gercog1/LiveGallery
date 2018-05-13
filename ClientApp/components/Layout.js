@@ -18,9 +18,10 @@ const Layout = React.createClass({
           <div className="control-buttons">
             <Link to="/home" style={{ marginRight: 5 }} className="button"><span/> Home </Link>
             <Link to="/user-list" style={{ marginRight: 5 }} className="button"> User List </Link>
-            {/*<Link to="/notifications" style={{ marginRight: 5 }} className="button"> Notifications </Link>*/}
+            <Link to="/filtered" style={{ marginRight: 5 }} className="button"> Filtered Photos </Link>
               {localStorage.getItem('role') != 1 && <Link to="/profile" style={{ marginRight: 5 }} className="button"> Profile </Link> }
-          </div>
+              {localStorage.getItem('role') == 1 && <Link to="/" style={{ marginRight: 5 }} className="button"> Logout </Link> }
+              </div>
         </figure>
       </div>
       {React.cloneElement({...this.props}.children, {...this.props})}

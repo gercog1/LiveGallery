@@ -70,6 +70,11 @@ export const addPhoto = (state = initialState, action ) => {
       ...state,
       file: action.file,
     };
+  case randomConstants.SET_CATEGORY:
+    return {
+      ...state,
+      category: action.category,
+    };
   default:
     return state;
   }

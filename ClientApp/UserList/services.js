@@ -9,5 +9,8 @@ export const listServices = {
       UserId: yourId,
       SubscriberId: userId,
     });
-  }
+  },
+    deleteUser(userId){
+      return axios.get(`/Account/DeleteUser?=${userId}`);
+    },
 };

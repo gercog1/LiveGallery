@@ -23,12 +23,12 @@ namespace LiveGallery.Controllers
         [HttpGet]
         public IActionResult GetUserPosts(string userID)
         {
-            var result  = _context.Posts
+            var result = _context.Posts
                                 .Include(x => x.Likes)
                                 .Where(x => x.UserId == userID)
                                 .OrderBy(x => x.Date);
 
-            foreach(var item in result)
+            foreach (var item in result)
             {
                 item.Comments = _context.Comments.Where(x => x.PostId == item.Id).OrderBy(x => x.Date).ToList();
             }
@@ -41,7 +41,7 @@ namespace LiveGallery.Controllers
         {
             var model = new GetPostViewModel();
             model.Post = _context.Posts.Include(x => x.Likes).Where(x => x.Id == postId).FirstOrDefault();
-            if(model.Post != null)
+            if (model.Post != null)
             {
                 var user = _context.Users.Where(x => x.ID == model.Post.UserId).FirstOrDefault();
                 model.UserId = user.ID;
@@ -50,6 +50,21 @@ namespace LiveGallery.Controllers
                 return Json(model);
             }
             else return BadRequest("post not found");
+        }
+
+        [HttpGet]
+        public IActionResult GetPostsByCategory(string category)
+        {
+            var posts = _context.Posts.Where(x => x.Category == category).Include(x => x.Likes).OrderBy(x => x.Date);
+
+            if (posts == null) return BadRequest("posts null");
+
+            foreach (var item in posts)
+            {
+                item.Comments = _context.Comments.Where(x => x.PostId == item.Id).OrderBy(x => x.Date).ToList();
+            }
+
+            return Json(posts);
         }
 
         [HttpGet]
@@ -92,12 +107,12 @@ namespace LiveGallery.Controllers
         [HttpPost]
         public async Task<ActionResult> CreatePost([FromForm]CreatePostViewModel model)
         {
-            if(model.File == null)
+            if (model.File == null)
             {
                 return BadRequest("file null");
             }
-            
-            if(!Directory.Exists(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images")))
+
+            if (!Directory.Exists(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images")))
             {
                 Directory.CreateDirectory(Path.Combine(Directory.GetCurrentDirectory(), "wwwroot", "images"));
             }
@@ -108,7 +123,7 @@ namespace LiveGallery.Controllers
             {
                 ext = model.File.FileName.Split(new char[] { '.' }, StringSplitOptions.RemoveEmptyEntries)[1];
             }
-            catch(Exception)
+            catch (Exception)
             {
                 return BadRequest("bad file");
             }
@@ -123,14 +138,15 @@ namespace LiveGallery.Controllers
             }
 
             System.IO.File.Move(path, newPath);
-            
+
             _context.Posts.Add(new Post()
             {
                 Id = Guid.NewGuid().ToString(),
                 UserId = model.UserID,
                 Description = model.Description,
-                ImageURL = Url.Content("~/images/" + newFileName), 
+                ImageURL = Url.Content("~/images/" + newFileName),
                 Date = DateTime.Now,
+                Category = model.Category,
                 Likes = new List<Like>(),
                 Comments = new List<Comment>()
             });
@@ -139,7 +155,7 @@ namespace LiveGallery.Controllers
 
             return Json("added");
         }
-        
+
         [HttpPost]
         public async Task<ActionResult> SetLike([FromBody]SetLikeViewModel model)
         {
@@ -154,7 +170,7 @@ namespace LiveGallery.Controllers
                     Id = Guid.NewGuid().ToString(),
                     UserId = model.UserId,
                     PostId = model.PostId
-                });    
+                });
 
                 await _context.SaveChangesAsync();
 

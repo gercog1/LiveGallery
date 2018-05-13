@@ -64,6 +64,7 @@ const initialStateRegistration = {
   lastName:'',
   password:'',
   confirmPassword:'',
+  country: '',
   image:'',
 };
 
@@ -98,6 +99,11 @@ const registrationInput = ( state = initialStateRegistration, action) => {
     return {
       ...state,
       confirmPassword: action.confirmPassword,
+    };
+  case loginConstants.SET_REGISTRATION_COUNTRY:
+    return {
+      ...state,
+      country: action.country,
     };
   case loginConstants.SET_REGISTRATION_IMAGE:
     return {

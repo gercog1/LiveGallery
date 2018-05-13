@@ -6,7 +6,7 @@ import actions from './actions';
 
 const AddPhoto = props => {
   const {showModal, closeModal, setDescription,
-    setFile, addPhoto } = props;
+    setFile, addPhoto, setCategory } = props;
 
   return (
     <div className="inmodal">
@@ -44,6 +44,17 @@ const AddPhoto = props => {
                   />
                 </div>
               </div>
+              <div className="form-group has-feedback col-md-6">
+                <label className="small font-noraml">Select category:</label>
+                <div className="form-group">
+                  <select defaultValue="" onChange={setCategory}>
+                    <option value="" disabled>Select category</option>
+                      <option value="sport">Sport</option>
+                      <option value="lifestyle">Lifestyle</option>
+                      <option value="casual">Casual</option>
+                  </select>
+                </div>
+              </div>
             </div>
           </Modal.Body>
 
@@ -64,6 +75,7 @@ const mapDispatchToState = (dispatch, ownProps) => ({
     e.preventDefault();
     dispatch(actions.addPhoto(ownProps.closeModal));
   },
+    setCategory: e => dispatch(actions.setCategory(e.target.value)),
 });
 
 

@@ -90,6 +90,17 @@ const RegistrationForm = props => {
       </div>
       <div className={'form-group'}>
         <input
+          type="password"
+          className="form-control"
+          onChange={setConfirmPassword}
+          required
+          placeholder="Country"
+          value={confirmPassword}
+        />
+
+      </div>
+      <div className={'form-group'}>
+        <input
           type="file"
           accept="image/*"
           name="image1"

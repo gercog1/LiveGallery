@@ -33,9 +33,20 @@ const subscribe = (userId) => (dispatch) => {
     });
 };
 
+const deleteUser = userId => dispatch => {
+  listServices.deleteUser(userId)
+    .then(response => {
+      dispatch(getUsers());
+    })
+    .catch(error => {
+      swal(error.message, '', 'error');
+    });
+};
+
 const actions = {
   getUsers,
   subscribe,
+    deleteUser,
 };
 
 export default actions;

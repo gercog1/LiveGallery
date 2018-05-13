@@ -158,6 +158,7 @@ const mapDispatchToProps = dispatch => ({
   clearInf: () => dispatch(actions.clearUserInf()),
   logout: () => dispatch(logout()),
   deletePost: (postId, userId) => dispatch(actions.deletePost(postId, userId)),
+
 });
 
 export default compose(

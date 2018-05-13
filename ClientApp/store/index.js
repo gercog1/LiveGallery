@@ -6,6 +6,7 @@ import { randomPosts, randomUser, addPhoto} from '../RandomUser/reducer';
 import { allPosts} from "../Home/reducer";
 import { followers, following} from "../RandomUser/reducer";
 import { userProfile} from "../UserPage/reducer";
+import { allFilteredPhotos, allFilteredCountry } from "../Filtered/reducer";
 
 export const reducers = {
   login,
@@ -19,5 +20,7 @@ export const reducers = {
   followers,
   following,
   userProfile,
+    allFilteredPhotos,
+    allFilteredCountry,
 };
 

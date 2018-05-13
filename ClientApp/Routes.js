@@ -10,8 +10,8 @@ import SinglePhoto from './SinglePhoto/container';
 import Notifications from './Notifications/container';
 import UserList from './UserList/container';
 import RandomUser from './RandomUser/container';
+import Filtered from './Filtered/container';
 
-import actions from './UserPage/actions';
 
 const Routes = () =>{
 
@@ -26,7 +26,7 @@ const Routes = () =>{
         <Switch>
           <Route path="/home" component={PhotoGrid}/>
           <Route path="/photo/:photoId" component={SinglePhoto}/>
-          <Route path="/notifications" component={Notifications}/>
+          <Route path="/filtered" component={Filtered}/>
           <Route path="/user/:userId" component={props => <RandomUser {...props} />}/>
           <Route path="/profile" component={props => <RandomUser {...props} /> }/>
           <Route path="/user-list" component={UserList}/>

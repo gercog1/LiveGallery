@@ -18,6 +18,7 @@ export const login = (username, password) => {
         localStorage.setItem('email', response.data.email);
         localStorage.setItem('firstName', response.data.firstName);
         localStorage.setItem('lastName', response.data.lastName);
+        localStorage.setItem('role', response.data.role)
         dispatch(success(response.data));
       })
       .catch(error => {
@@ -39,7 +40,7 @@ export const setRegEmail = email => ({ type: loginConstants.SET_REGISTRATION_EMA
 export const setRegPassword = password => ({ type: loginConstants.SET_REGISTRATION_PASSWORD, password });
 export const setRegConfirmPassword = confirmPassword => ({ type: loginConstants.SET_REGISTRATION_CONFIRM_PASSWORD, confirmPassword  });
 export const setRegImage = image => ({ type: loginConstants.SET_REGISTRATION_IMAGE, image });
-
+export const setRegCountry = country => ({ type: loginConstants.SET_REGISTRATION_COUNTRY, country });
 
 export const register = (changeKey) => (dispatch, getState) => {
   const { login : { registrationInput: { username, email, firstName, lastName, password, image, confirmPassword } } } = getState();
