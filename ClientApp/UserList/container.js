@@ -12,9 +12,6 @@ const UserList = props => {
   return(
     <div className="photo-grid">
       <figure style={{ flexBasis: 'none', height: 600 }} className="grid-figure">
-          <select defaultValue="" style={{ marginBottom: 20}}>
-              <option value="" disabled> Select category</option>
-          </select>
         <ListGroup>
           {
             users.filter(user => user.id != localStorage.getItem('id') && user.userName != 'admin').map(user=>(

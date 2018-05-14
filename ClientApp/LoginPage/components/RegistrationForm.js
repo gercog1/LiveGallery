@@ -21,6 +21,7 @@ const RegistrationForm = props => {
     password,
     confirmPassword,
     image,
+      setRegCountry,
   } = props;
 
   return (
@@ -90,12 +91,11 @@ const RegistrationForm = props => {
       </div>
       <div className={'form-group'}>
         <input
-          type="password"
+          type="text"
           className="form-control"
-          onChange={setConfirmPassword}
+          onChange={setRegCountry}
           required
           placeholder="Country"
-          value={confirmPassword}
         />
 
       </div>
@@ -130,6 +130,7 @@ const mapDispatchToProps = (dispatch, ownProps) => ({
   setPassword: e => dispatch(actions.setRegPassword(e.target.value)),
   setConfirmPassword: e => dispatch(actions.setRegConfirmPassword(e.target.value)),
   setImage: e => dispatch(actions.setRegImage(e.target.files[0])),
+    setRegCountry: e => dispatch(actions.setRegCountry(e.target.value)),
   register: e => {
     e.preventDefault();
     dispatch(actions.register(ownProps.changeKey));

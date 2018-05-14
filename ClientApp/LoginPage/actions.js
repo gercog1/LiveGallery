@@ -43,9 +43,9 @@ export const setRegImage = image => ({ type: loginConstants.SET_REGISTRATION_IMA
 export const setRegCountry = country => ({ type: loginConstants.SET_REGISTRATION_COUNTRY, country });
 
 export const register = (changeKey) => (dispatch, getState) => {
-  const { login : { registrationInput: { username, email, firstName, lastName, password, image, confirmPassword } } } = getState();
+  const { login : { registrationInput: { username, email, firstName, lastName, password, image, confirmPassword, country } } } = getState();
   if(password === confirmPassword){
-    loginService.registration({username, email, firstName, lastName, password, image })
+    loginService.registration({username, email, firstName, lastName, password, image, country })
       .then(response => {
         dispatch(resetForm());
         swal('success','','success');

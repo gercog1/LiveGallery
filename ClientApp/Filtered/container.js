@@ -1,7 +1,7 @@
 import React from 'react';
 import { compose, lifecycle, branch, renderComponent } from 'recompose';
 import { connect } from 'react-redux';
-import { getFilteredPhotos} from "./actions";
+import { getFilteredPhotos, getFilteredByCountryPhotos} from "./actions";
 import { Link } from 'react-router-dom';
 
 import { Loading} from "../Loading";
@@ -9,29 +9,29 @@ import { Loading} from "../Loading";
 import { clearFilterPhotos } from "./actions";
 
 const Filtered = props => {
-  const { getFilteredPhotos, posts, isLoadedAllPosts } = props;
+  const { getFilteredPhotos, posts, isLoadedAllPosts, getFilteredByCountryPhotos } = props;
 
   return(
     <div>
       <div className="photo-grid">
         <figure style={{ flexBasis: 'none', height: 60, display: 'inline-block' }} className="grid-figure">
-          <select defaultValue="" style={{ marginRight: 10 }}>
+          <select onChange={getFilteredByCountryPhotos} defaultValue="" style={{ marginRight: 10 }}>
             <option value=""> Select country</option>
             <option value="ukraine"> Ukraine </option>
             <option value="usa"> USA </option>
           </select>
           <select defaultValue="" onChange={getFilteredPhotos}>
-          <option value=""> Select category</option>
-          <option value="sport"> Sport </option>
-          <option value="lifestyle"> Lifestyle </option>
-          <option value="casual"> Casual </option>
+            <option value=""> Select category</option>
+            <option value="sport"> Sport </option>
+            <option value="lifestyle"> Lifestyle </option>
+            <option value="casual"> Casual </option>
           </select>
         </figure>
       </div>
       <div className="photo-grid">
         <div className="row">
           {
-              isLoadedAllPosts && posts.map((post, i)=>(
+            isLoadedAllPosts && posts.map((post, i)=>(
               <div key={post.id} className="col-md-4">
                 <figure key={i} className="grid-figure" >
                   <div className="grid-photo-wrap" style={{ height: 500, overflow: 'hidden'}}>
@@ -79,20 +79,21 @@ const Filtered = props => {
 
 const mapStateToProps = state => ({
   posts: state.allFilteredPhotos.posts,
-    isLoadedAllPosts: state.allFilteredPhotos.isLoadedAllPosts,
+  isLoadedAllPosts: state.allFilteredPhotos.isLoadedAllPosts,
 });
 
 
 const mapDispatchToProps = dispatch => ({
   getFilteredPhotos: e => dispatch(getFilteredPhotos(e.target.value)),
-    clearFilterPhotos: () => dispatch(clearFilterPhotos()),
+  getFilteredByCountryPhotos: e => dispatch(getFilteredByCountryPhotos(e.target.value)),
+  clearFilterPhotos: () => dispatch(clearFilterPhotos()),
 });
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
-    lifecycle({
-        componentWillUnmount(){
-            this.props.clearFilterPhotos();
-        }
-    })
+  lifecycle({
+    componentWillUnmount(){
+      this.props.clearFilterPhotos();
+    }
+  })
 )(Filtered);

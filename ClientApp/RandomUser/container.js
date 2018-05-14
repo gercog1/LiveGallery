@@ -44,7 +44,7 @@ const RandomUser = props => {
             </div>
             <div className="col-md-3">
               <figcaption >
-                <h2 style={{ color: '#4286f4'}} className="font-bold" >{user.userName}</h2>
+                <h2 style={{ color: '#4286f4'}} className="font-bold" >{user.userName}<span style={{ fontSize: 15}}> {user.country && `( ${user.country} )`} </span></h2>
                 <h3 className="font-bold" ><i style={{ color: '#669091'}} className="glyphicon glyphicon-send" /> {user.firstName} {user.lastName}</h3>
                 <h3 style={{ fontWeight: 400 }}><i style={{ color: '#669091'}} className="glyphicon glyphicon-phone-alt" /> {user.email}</h3>
                 { user.id == localStorage.getItem('id') && <h3 style={{ fontWeight: 400, cursor: 'pointer' }}><Link to="/" onClick={logout}>Logout</Link></h3> }
