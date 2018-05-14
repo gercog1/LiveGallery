@@ -68,6 +68,21 @@ namespace LiveGallery.Controllers
         }
 
         [HttpGet]
+        public IActionResult GetPostsByCountry(string country)
+        {
+            var users = _context.Users.Where(x => x.Country == country).Select(x => x.ID);
+
+            var posts = new List<Post>();
+
+            foreach(var item in users)
+            {
+                posts.AddRange(_context.Posts.Where(x => x.UserId == item));
+            }
+
+            return Json(posts);
+        }
+
+        [HttpGet]
         public IActionResult GetAllPosts()
         {
             return Json(_context.Posts
