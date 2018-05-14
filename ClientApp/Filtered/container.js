@@ -6,7 +6,7 @@ import { Link } from 'react-router-dom';
 
 import { Loading} from "../Loading";
 // import {deleteAlert, formatDescription} from "../functions";
-
+import { clearFilterPhotos } from "./actions";
 
 const Filtered = props => {
   const { getFilteredPhotos, posts, isLoadedAllPosts } = props;
@@ -20,18 +20,18 @@ const Filtered = props => {
             <option value="ukraine"> Ukraine </option>
             <option value="usa"> USA </option>
           </select>
-          {/*<select defaultValue="" onChange={getFilteredPhotos}>*/}
-          {/*<option value=""> Select category</option>*/}
-          {/*<option value="sport"> Sport </option>*/}
-          {/*<option value="lifestyle"> Lifestyle </option>*/}
-          {/*<option value="casual"> Casual </option>*/}
-          {/*</select>*/}
+          <select defaultValue="" onChange={getFilteredPhotos}>
+          <option value=""> Select category</option>
+          <option value="sport"> Sport </option>
+          <option value="lifestyle"> Lifestyle </option>
+          <option value="casual"> Casual </option>
+          </select>
         </figure>
       </div>
       <div className="photo-grid">
         <div className="row">
           {
-            isLoadedAllPosts && posts.map((post, i)=>(
+              isLoadedAllPosts && posts.map((post, i)=>(
               <div key={post.id} className="col-md-4">
                 <figure key={i} className="grid-figure" >
                   <div className="grid-photo-wrap" style={{ height: 500, overflow: 'hidden'}}>
@@ -78,15 +78,21 @@ const Filtered = props => {
 };
 
 const mapStateToProps = state => ({
-  posts: state.allFilteredCountry.posts,
-  isLoadedCountry: state.allFilteredCountry.isLoadedCountry,
+  posts: state.allFilteredPhotos.posts,
+    isLoadedAllPosts: state.allFilteredPhotos.isLoadedAllPosts,
 });
 
 
 const mapDispatchToProps = dispatch => ({
   getFilteredPhotos: e => dispatch(getFilteredPhotos(e.target.value)),
+    clearFilterPhotos: () => dispatch(clearFilterPhotos()),
 });
 
 export default compose(
   connect(mapStateToProps, mapDispatchToProps),
+    lifecycle({
+        componentWillUnmount(){
+            this.props.clearFilterPhotos();
+        }
+    })
 )(Filtered);

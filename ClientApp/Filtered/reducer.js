@@ -19,6 +19,8 @@ export const allFilteredPhotos = (state = initialStateFilteredPosts , action) =>
     };
   case filteredConstants.GET_FILTERED_PHOTOS_FAILURE:
     return {};
+  case filteredConstants.CLEAR_FILTER_PHOTOS:
+    return initialStateFilteredPosts;
   default:
     return state;
   }

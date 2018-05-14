@@ -37,3 +37,5 @@ export const getFilteredByCountryPhotos = country => {
       });
   };
 } ;
+
+export const clearFilterPhotos = () => ({ type: filteredConstants.CLEAR_FILTER_PHOTOS });

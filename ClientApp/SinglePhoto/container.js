@@ -21,6 +21,7 @@ const SinglePhoto = props => {
           {/*<div className="row">*/}
           {/*<div className="col-md-2">*/}
           <Link className="font-bold" to={localStorage.getItem('id') == postUserId ? '/profile' : `/user/${postUserId}`} style={{ color: '#669091'}}> {postUserName}</Link>
+            <p style={{ fontSize: 15, fontWeight: 'bold', textDecoration: 'none', color: '#a7b9d6' }}> { post.category && post.category } </p>
           {/*</div>*/}
         </div>
         <div className="grid-photo-wrap">
