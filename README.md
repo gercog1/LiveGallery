@@ -61,3 +61,5 @@ Unregistred user
  
  Actions description: https://drive.google.com/open?id=1g6AvMzax0nRMDwyR5CQ_KiMu9pzy2_tA
  
+ Domain model: https://drive.google.com/open?id=1wESe032y3yiDekCxjU8MnhOuGUam0ziC
+ 
