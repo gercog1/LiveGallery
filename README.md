@@ -24,4 +24,44 @@
     > setx ASPNETCORE_ENVIRONMENT "Development"
  From Visual Studio
  ===================
- - Open repo.csproj file
+
+ - Open repo.csproj file 
+
+
+## Projects roles actions
+
+Unregistred user
+####
+ - Register
+ 
+  Registred user
+####
+ - Log in
+ - Log out
+ - Add post
+ - Delete post
+ - Like photo
+ - Comment photo
+ - Delete comment
+ - Follow user
+ - Unfollow user
+ - Get user profile
+ - Get all users
+ 
+  Admin
+####
+ - Log in
+ - Log out
+ - Delte user
+ - Delete photo
+ - Delete comment
+ - Get all photos
+ - Get all users
+ - Get user profile
+ 
+ Use case schema: https://drive.google.com/open?id=10AwGJiS12AM8tf5aCGjafl3UK2iJa2rx
+ 
+ Actions description: https://drive.google.com/open?id=1g6AvMzax0nRMDwyR5CQ_KiMu9pzy2_tA
+ 
+ Domain model: https://drive.google.com/open?id=1wESe032y3yiDekCxjU8MnhOuGUam0ziC
+
