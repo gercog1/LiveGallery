@@ -58,4 +58,5 @@ Unregistred user
  - Get user profile
  
  Use case schema: https://drive.google.com/open?id=10AwGJiS12AM8tf5aCGjafl3UK2iJa2rx
+ Actions description: https://drive.google.com/open?id=1g6AvMzax0nRMDwyR5CQ_KiMu9pzy2_tA
  
